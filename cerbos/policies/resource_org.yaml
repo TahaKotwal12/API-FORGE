@@ -1,0 +1,36 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  resource: "org"
+  rules:
+    # OWNER can do everything
+    - actions: ["*"]
+      effect: EFFECT_ALLOW
+      roles:
+        - owner
+
+    # ADMIN can manage members and update org settings
+    - actions: ["read", "update", "manage_members", "invite", "create_team", "delete_team"]
+      effect: EFFECT_ALLOW
+      roles:
+        - admin
+
+    # EDITOR can read and do most work, but not manage members
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles:
+        - editor
+
+    # VIEWER and GUEST — read-only
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles:
+        - viewer
+        - guest
+
+    # All authenticated users can read the org they belong to
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      derivedRoles:
+        - member

@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+build
+coverage
+.turbo
+.git
+*.md
+.env*
+!.env.example

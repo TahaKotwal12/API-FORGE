@@ -1,0 +1,38 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+  version: "default"
+  resource: "project"
+  rules:
+    # OWNER — full control
+    - actions: ["*"]
+      effect: EFFECT_ALLOW
+      roles:
+        - owner
+
+    # ADMIN — full control except transfer
+    - actions: ["create", "read", "update", "delete", "duplicate", "manage_branches"]
+      effect: EFFECT_ALLOW
+      roles:
+        - admin
+
+    # EDITOR — can create, read, update projects (but NOT delete)
+    - actions: ["create", "read", "update", "duplicate"]
+      effect: EFFECT_ALLOW
+      roles:
+        - editor
+
+    # VIEWER — read-only
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles:
+        - viewer
+
+    # GUEST — read-only on public/org visibility only
+    - actions: ["read"]
+      effect: EFFECT_ALLOW
+      roles:
+        - guest
+      condition:
+        match:
+          expr: request.resource.attr.visibility != "PRIVATE"
