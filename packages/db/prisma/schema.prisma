@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://neondb_owner:npg_Pd4Zx0XNqhFc@ep-bitter-field-amd8915p-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 }
 
 // ─────────────────────────────── Enums ───────────────────────────────
@@ -102,6 +102,12 @@ enum DocVisibility {
   SSO
 }
 
+enum MrStatus {
+  OPEN
+  MERGED
+  CLOSED
+}
+
 // ─────────────────────────────── Users & Auth ───────────────────────────────
 
 model User {
@@ -114,16 +120,20 @@ model User {
   createdAt     DateTime  @default(now())
   deletedAt     DateTime?
 
-  memberships     Membership[]
-  sessions        Session[]
-  mfa             MfaSecret?
-  refreshTokens   RefreshToken[]
-  agentTokens     AgentToken[]
-  createdBranches Branch[]       @relation("BranchCreator")
-  commits         Commit[]
-  docPortals      DocPortal[]    @relation("PortalPublisher")
-  secrets         Secret[]       @relation("SecretCreator")
-  auditLogs       AuditLog[]     @relation("ActorAuditLogs")
+  memberships       Membership[]
+  sessions          Session[]
+  mfa               MfaSecret?
+  refreshTokens     RefreshToken[]
+  agentTokens       AgentToken[]
+  createdBranches   Branch[]         @relation("BranchCreator")
+  commits           Commit[]
+  docPortals        DocPortal[]      @relation("PortalPublisher")
+  secrets           Secret[]         @relation("SecretCreator")
+  auditLogs         AuditLog[]       @relation("ActorAuditLogs")
+  mergeRequests     MergeRequest[]   @relation("MrAuthor")
+  mergedMrs         MergeRequest[]   @relation("MrMerger")
+  mrReviews         MrReview[]
+  mrComments        MrComment[]
 }
 
 model Session {
@@ -240,19 +250,20 @@ model Project {
   updatedAt       DateTime   @updatedAt
   deletedAt       DateTime?
 
-  org           Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  branches      Branch[]
-  environments  Environment[]
-  mockRules     MockRule[]
-  testSuites    TestSuite[]
-  docPortals    DocPortal[]
-  plugins       ProjectPlugin[]
-  secrets       Secret[]
-  testRuns      TestRun[]
-  loadTestRuns  LoadTestRun[]
-  mockRuns      MockRun[]
-  scheduledJobs ScheduledJob[]
-  imports       Import[]
+  org            Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  branches       Branch[]
+  environments   Environment[]
+  mockRules      MockRule[]
+  testSuites     TestSuite[]
+  docPortals     DocPortal[]
+  plugins        ProjectPlugin[]
+  secrets        Secret[]
+  testRuns       TestRun[]
+  loadTestRuns   LoadTestRun[]
+  mockRuns       MockRun[]
+  scheduledJobs  ScheduledJob[]
+  imports        Import[]
+  mergeRequests  MergeRequest[]
 
   @@unique([orgId, slug])
 }
@@ -521,6 +532,56 @@ model DocVersion {
 
   portal DocPortal @relation(fields: [portalId], references: [id], onDelete: Cascade)
   branch Branch    @relation(fields: [branchId], references: [id])
+}
+
+// ─────────────────────────────── Merge Requests ───────────────────────────────
+
+model MergeRequest {
+  id           String   @id @default(uuid())
+  projectId    String
+  sourceBranch String
+  targetBranch String
+  title        String
+  description  String?
+  status       MrStatus @default(OPEN)
+  authorId     String
+  mergedBy     String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  mergedAt     DateTime?
+
+  project  Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  author   User        @relation("MrAuthor", fields: [authorId], references: [id])
+  merger   User?       @relation("MrMerger", fields: [mergedBy], references: [id])
+  reviews  MrReview[]
+  comments MrComment[]
+
+  @@index([projectId, status])
+}
+
+model MrReview {
+  id        String   @id @default(uuid())
+  mrId      String
+  userId    String
+  approved  Boolean
+  createdAt DateTime @default(now())
+
+  mr   MergeRequest @relation(fields: [mrId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id])
+
+  @@unique([mrId, userId])
+}
+
+model MrComment {
+  id        String   @id @default(uuid())
+  mrId      String
+  authorId  String
+  body      String
+  path      String?
+  createdAt DateTime @default(now())
+
+  mr     MergeRequest @relation(fields: [mrId], references: [id], onDelete: Cascade)
+  author User         @relation(fields: [authorId], references: [id])
 }
 
 // ─────────────────────────────── Scheduled Jobs ───────────────────────────────

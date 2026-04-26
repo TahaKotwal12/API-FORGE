@@ -16,6 +16,8 @@ const envSchema = z.object({
   GITHUB_CLIENT_SECRET: z.string().optional(),
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
+  SECRET_ENCRYPTION_KEY: z.string().optional(),
+  YJS_PORT: z.coerce.number().default(4001),
 });
 
 export type AppConfig = z.infer<typeof envSchema>;

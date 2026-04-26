@@ -13,7 +13,7 @@ import { EmailService } from './email.service';
 
 const ARGON_OPTIONS = { memoryCost: 65536, timeCost: 3, parallelism: 4 };
 
-interface TokenPair {
+export interface TokenPair {
   accessToken: string;
   refreshToken: string;
 }

@@ -56,9 +56,9 @@ export default function OrgDashboardPage({ params }: { params: Promise<{ slug: s
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-semibold">{currentOrg.name}</h1>
-            <p className="text-sm text-[var(--text-muted)] mt-0.5">
+            <span className="text-sm text-[var(--text-muted)] mt-0.5 block">
               <Badge variant="secondary">{currentOrg.plan}</Badge>
-            </p>
+            </span>
           </div>
           <Button asChild>
             <Link href={`/orgs/${slug}/projects/new`}>

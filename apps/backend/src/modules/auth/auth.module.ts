@@ -31,6 +31,6 @@ import { GoogleStrategy } from './strategies/google.strategy';
     GithubStrategy,
     GoogleStrategy,
   ],
-  exports: [AuthService, JwtModule],
+  exports: [AuthService, EmailService, JwtModule],
 })
 export class AuthModule {}

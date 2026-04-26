@@ -1,0 +1,698 @@
+// Canonical Prisma schema for APIForge.
+// Models copied verbatim from apiforge-docs/04-data-model/SCHEMA.md.
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://neondb_owner:npg_Pd4Zx0XNqhFc@ep-bitter-field-amd8915p-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+}
+
+// ─────────────────────────────── Enums ───────────────────────────────
+
+enum Plan {
+  FREE
+  TEAM
+  ENTERPRISE
+  SELF_HOSTED
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+  GUEST
+}
+
+enum Visibility {
+  PRIVATE
+  ORG
+  PUBLIC
+}
+
+enum SpecFormat {
+  OPENAPI_3_1
+  ASYNCAPI_2_6
+  GRAPHQL
+  PROTOBUF
+}
+
+enum HttpMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+  HEAD
+  OPTIONS
+}
+
+enum ImportSource {
+  POSTMAN
+  INSOMNIA
+  SWAGGER
+  OPENAPI
+  HAR
+  CURL
+  GIT_URL
+  APIDOG
+  HOPPSCOTCH
+  WSDL
+}
+
+enum ImportStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum JobType {
+  TEST_RUN
+  SPEC_IMPORT
+  BACKUP
+  DOC_PUBLISH
+}
+
+enum TriggerType {
+  MANUAL
+  SCHEDULED
+  CI
+  AGENT
+}
+
+enum RunStatus {
+  PENDING
+  RUNNING
+  PASSED
+  FAILED
+  CANCELLED
+}
+
+enum DocVisibility {
+  PUBLIC
+  PASSWORD
+  IP_ALLOWLIST
+  EMAIL_ALLOWLIST
+  SSO
+}
+
+enum MrStatus {
+  OPEN
+  MERGED
+  CLOSED
+}
+
+// ─────────────────────────────── Users & Auth ───────────────────────────────
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  avatarUrl     String?
+  passwordHash  String?
+  emailVerified Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  deletedAt     DateTime?
+
+  memberships     Membership[]
+  sessions        Session[]
+  mfa             MfaSecret?
+  refreshTokens   RefreshToken[]
+  agentTokens     AgentToken[]
+  createdBranches Branch[]       @relation("BranchCreator")
+  commits         Commit[]
+  docPortals      DocPortal[]    @relation("PortalPublisher")
+  secrets         Secret[]       @relation("SecretCreator")
+  auditLogs       AuditLog[]     @relation("ActorAuditLogs")
+  mergeRequests   MergeRequest[] @relation("MrAuthor")
+  mergedMrs       MergeRequest[] @relation("MrMerger")
+  mrReviews       MrReview[]
+  mrComments      MrComment[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  userAgent String?
+  ip        String?
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MfaSecret {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  secret    String
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  tokenHash String    @unique
+  userAgent String?
+  ip        String?
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Orgs & Teams ───────────────────────────────
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  plan      Plan     @default(FREE)
+  ssoConfig Json?
+  createdAt DateTime @default(now())
+
+  memberships Membership[]
+  projects    Project[]
+  auditLogs   AuditLog[]
+  teams       Team[]
+  agentTokens AgentToken[]
+  invites     Invite[]
+}
+
+model Membership {
+  id     String @id @default(uuid())
+  userId String
+  orgId  String
+  role   Role
+
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  org  Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, orgId])
+}
+
+model Team {
+  id    String @id @default(uuid())
+  orgId String
+  name  String
+
+  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  members TeamMember[]
+}
+
+model TeamMember {
+  teamId String
+  userId String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@id([teamId, userId])
+}
+
+model Invite {
+  id         String    @id @default(uuid())
+  orgId      String
+  email      String
+  role       Role
+  token      String    @unique @default(uuid())
+  invitedBy  String
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  org Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Projects ───────────────────────────────
+
+model Project {
+  id              String     @id @default(uuid())
+  orgId           String
+  name            String
+  slug            String
+  description     String?
+  icon            String?
+  defaultBranchId String?
+  visibility      Visibility @default(PRIVATE)
+  gitRemoteUrl    String?
+  gitAuthRef      String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  deletedAt       DateTime?
+
+  org           Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  branches      Branch[]
+  environments  Environment[]
+  mockRules     MockRule[]
+  testSuites    TestSuite[]
+  docPortals    DocPortal[]
+  plugins       ProjectPlugin[]
+  secrets       Secret[]
+  testRuns      TestRun[]
+  loadTestRuns  LoadTestRun[]
+  mockRuns      MockRun[]
+  scheduledJobs ScheduledJob[]
+  imports       Import[]
+  mergeRequests MergeRequest[]
+
+  @@unique([orgId, slug])
+}
+
+model Branch {
+  id           String   @id @default(uuid())
+  projectId    String
+  name         String
+  protected    Boolean  @default(false)
+  parentId     String?
+  headCommitId String?
+  createdBy    String
+  createdAt    DateTime @default(now())
+
+  project          Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  parent           Branch?           @relation("BranchParent", fields: [parentId], references: [id])
+  children         Branch[]          @relation("BranchParent")
+  commits          Commit[]
+  endpoints        Endpoint[]
+  schemaComponents SchemaComponent[]
+  securitySchemes  SecurityScheme[]
+  creator          User              @relation("BranchCreator", fields: [createdBy], references: [id])
+  docPortals       DocPortal[]       @relation("PortalBranch")
+  docVersions      DocVersion[]
+
+  @@unique([projectId, name])
+}
+
+model Commit {
+  id             String   @id @default(uuid())
+  branchId       String
+  parentId       String?
+  message        String
+  authorId       String
+  specSnapshotId String
+  createdAt      DateTime @default(now())
+
+  branch       Branch       @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  parent       Commit?      @relation("CommitParent", fields: [parentId], references: [id])
+  children     Commit[]     @relation("CommitParent")
+  author       User         @relation(fields: [authorId], references: [id])
+  specSnapshot SpecSnapshot @relation(fields: [specSnapshotId], references: [id])
+
+  @@index([branchId, createdAt(sort: Desc)])
+}
+
+model SpecSnapshot {
+  id        String     @id @default(uuid())
+  sha256    String     @unique
+  format    SpecFormat
+  content   Json
+  size      Int
+  createdAt DateTime   @default(now())
+
+  commits Commit[]
+
+  @@index([sha256])
+}
+
+// ─────────────────────────────── Endpoints / Schemas ───────────────────────────────
+
+model Endpoint {
+  id          String     @id @default(uuid())
+  branchId    String
+  method      HttpMethod
+  path        String
+  summary     String?
+  description String?
+  tags        String[]
+  parameters  Json
+  requestBody Json?
+  responses   Json
+  security    Json?
+  deprecated  Boolean    @default(false)
+  extensions  Json?
+  order       Int        @default(0)
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?
+
+  branch    Branch     @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  mockRules MockRule[]
+  testCases TestCase[]
+
+  @@unique([branchId, method, path])
+  @@index([branchId, method, path])
+}
+
+model SchemaComponent {
+  id       String @id @default(uuid())
+  branchId String
+  name     String
+  schema   Json
+
+  branch Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@unique([branchId, name])
+}
+
+model SecurityScheme {
+  id       String @id @default(uuid())
+  branchId String
+  name     String
+  scheme   Json
+
+  branch Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+
+  @@unique([branchId, name])
+}
+
+// ─────────────────────────────── Environments / Secrets ───────────────────────────────
+
+model Environment {
+  id        String  @id @default(uuid())
+  projectId String
+  name      String
+  variables Json
+  isDefault Boolean @default(false)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, name])
+}
+
+model Secret {
+  id         String   @id @default(uuid())
+  projectId  String
+  key        String
+  ciphertext Bytes
+  dekVersion Int
+  createdBy  String
+  createdAt  DateTime @default(now())
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  creator User    @relation("SecretCreator", fields: [createdBy], references: [id])
+
+  @@unique([projectId, key])
+}
+
+// ─────────────────────────────── Mocks ───────────────────────────────
+
+model MockRule {
+  id         String  @id @default(uuid())
+  projectId  String
+  endpointId String?
+  scenario   String
+  priority   Int
+  matchExpr  Json
+  response   Json
+  script     String?
+  latencyMs  Int?
+  enabled    Boolean @default(true)
+
+  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  endpoint Endpoint? @relation(fields: [endpointId], references: [id])
+  mockRuns MockRun[]
+}
+
+model MockRun {
+  id           String   @id @default(uuid())
+  projectId    String
+  endpointId   String?
+  ruleId       String?
+  requestJson  Json
+  responseJson Json
+  latencyMs    Int
+  timestamp    DateTime @default(now())
+
+  project Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  rule    MockRule? @relation(fields: [ruleId], references: [id])
+
+  @@index([projectId, timestamp(sort: Desc)])
+}
+
+// ─────────────────────────────── Tests ───────────────────────────────
+
+model TestSuite {
+  id        String @id @default(uuid())
+  projectId String
+  name      String
+
+  project   Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  scenarios TestScenario[]
+  testRuns  TestRun[]
+}
+
+model TestScenario {
+  id         String @id @default(uuid())
+  suiteId    String
+  name       String
+  steps      Json
+  dataSource Json?
+
+  suite        TestSuite     @relation(fields: [suiteId], references: [id], onDelete: Cascade)
+  loadTestRuns LoadTestRun[]
+}
+
+model TestCase {
+  id         String @id @default(uuid())
+  endpointId String
+  name       String
+  input      Json
+  assertions Json
+
+  endpoint Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
+}
+
+model TestRun {
+  id          String      @id @default(uuid())
+  projectId   String
+  suiteId     String?
+  triggeredBy TriggerType
+  status      RunStatus   @default(PENDING)
+  startedAt   DateTime    @default(now())
+  endedAt     DateTime?
+  summary     Json
+  stepResults Json
+  reportUrl   String?
+
+  project Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  suite   TestSuite? @relation(fields: [suiteId], references: [id])
+}
+
+model LoadTestRun {
+  id         String    @id @default(uuid())
+  projectId  String
+  scenarioId String
+  config     Json
+  status     RunStatus @default(PENDING)
+  metricsUrl String?
+  startedAt  DateTime  @default(now())
+  endedAt    DateTime?
+
+  project  Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  scenario TestScenario @relation(fields: [scenarioId], references: [id])
+}
+
+// ─────────────────────────────── Documentation ───────────────────────────────
+
+model DocPortal {
+  id                String        @id @default(uuid())
+  projectId         String
+  slug              String        @unique
+  customDomain      String?       @unique
+  branchId          String
+  visibility        DocVisibility @default(PUBLIC)
+  passwordHash      String?
+  ipAllowlist       String[]
+  emailAllowlist    String[]
+  theme             Json
+  seo               Json
+  publishedAt       DateTime      @default(now())
+  publishedByUserId String
+
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  branch      Branch       @relation("PortalBranch", fields: [branchId], references: [id])
+  publishedBy User         @relation("PortalPublisher", fields: [publishedByUserId], references: [id])
+  versions    DocVersion[]
+}
+
+model DocVersion {
+  id          String   @id @default(uuid())
+  portalId    String
+  version     String
+  branchId    String
+  publishedAt DateTime @default(now())
+
+  portal DocPortal @relation(fields: [portalId], references: [id], onDelete: Cascade)
+  branch Branch    @relation(fields: [branchId], references: [id])
+}
+
+// ─────────────────────────────── Merge Requests ───────────────────────────────
+
+model MergeRequest {
+  id           String    @id @default(uuid())
+  projectId    String
+  sourceBranch String
+  targetBranch String
+  title        String
+  description  String?
+  status       MrStatus  @default(OPEN)
+  authorId     String
+  mergedBy     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  mergedAt     DateTime?
+
+  project  Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  author   User        @relation("MrAuthor", fields: [authorId], references: [id])
+  merger   User?       @relation("MrMerger", fields: [mergedBy], references: [id])
+  reviews  MrReview[]
+  comments MrComment[]
+
+  @@index([projectId, status])
+}
+
+model MrReview {
+  id        String   @id @default(uuid())
+  mrId      String
+  userId    String
+  approved  Boolean
+  createdAt DateTime @default(now())
+
+  mr   MergeRequest @relation(fields: [mrId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id])
+
+  @@unique([mrId, userId])
+}
+
+model MrComment {
+  id        String   @id @default(uuid())
+  mrId      String
+  authorId  String
+  body      String
+  path      String?
+  createdAt DateTime @default(now())
+
+  mr     MergeRequest @relation(fields: [mrId], references: [id], onDelete: Cascade)
+  author User         @relation(fields: [authorId], references: [id])
+}
+
+// ─────────────────────────────── Scheduled Jobs ───────────────────────────────
+
+model ScheduledJob {
+  id        String    @id @default(uuid())
+  projectId String
+  type      JobType
+  schedule  String
+  config    Json
+  enabled   Boolean   @default(true)
+  lastRun   DateTime?
+  nextRun   DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── MCP / Agents ───────────────────────────────
+
+model AgentToken {
+  id        String    @id @default(uuid())
+  orgId     String
+  name      String
+  tokenHash String
+  scopes    Json
+  readOnly  Boolean   @default(false)
+  expiresAt DateTime?
+  createdBy String
+  createdAt DateTime  @default(now())
+  lastUsed  DateTime?
+
+  org        Organization    @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  creator    User            @relation(fields: [createdBy], references: [id])
+  activities AgentActivity[]
+  auditLogs  AuditLog[]      @relation("AgentAuditLogs")
+}
+
+model AgentActivity {
+  id        String   @id @default(uuid())
+  tokenId   String
+  toolName  String
+  params    Json
+  result    Json
+  success   Boolean
+  timestamp DateTime @default(now())
+
+  token AgentToken @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Plugins ───────────────────────────────
+
+model Plugin {
+  id        String @id @default(uuid())
+  name      String @unique
+  version   String
+  source    String
+  manifest  Json
+  publisher String
+
+  projects ProjectPlugin[]
+}
+
+model ProjectPlugin {
+  projectId String
+  pluginId  String
+  config    Json
+  enabled   Boolean @default(true)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  plugin  Plugin  @relation(fields: [pluginId], references: [id])
+
+  @@id([projectId, pluginId])
+}
+
+// ─────────────────────────────── Audit Log ───────────────────────────────
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  orgId        String
+  actorId      String?
+  actorAgentId String?
+  action       String
+  resource     String
+  resourceId   String
+  before       Json?
+  after        Json?
+  ip           String?
+  userAgent    String?
+  timestamp    DateTime @default(now())
+
+  org        Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  actor      User?        @relation("ActorAuditLogs", fields: [actorId], references: [id])
+  actorAgent AgentToken?  @relation("AgentAuditLogs", fields: [actorAgentId], references: [id])
+
+  @@index([orgId, timestamp(sort: Desc)])
+  @@index([actorId, timestamp(sort: Desc)])
+  @@index([resource, resourceId])
+}
+
+// ─────────────────────────────── Imports ───────────────────────────────
+
+model Import {
+  id        String       @id @default(uuid())
+  projectId String
+  source    ImportSource
+  sourceRef String
+  status    ImportStatus @default(PENDING)
+  scheduled Boolean      @default(false)
+  cron      String?
+  lastRunAt DateTime?
+  report    Json?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}

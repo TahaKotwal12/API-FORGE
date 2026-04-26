@@ -13,6 +13,13 @@ import { InvitesModule } from './modules/invites/invites.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { HealthModule } from './modules/health/health.module';
 import { CerbosModule } from './modules/cerbos/cerbos.module';
+import { EndpointsModule } from './modules/endpoints/endpoints.module';
+import { SchemasModule } from './modules/schemas/schemas.module';
+import { SecurityModule } from './modules/security/security.module';
+import { EnvironmentsModule } from './modules/environments/environments.module';
+import { SpecModule } from './modules/spec/spec.module';
+import { LinterModule } from './modules/linter/linter.module';
+import { GitModule } from './modules/git/git.module';
 import { ProblemDetailsFilter } from './common/filters/problem-details.filter';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
@@ -46,6 +53,13 @@ const isProd = process.env.NODE_ENV === 'production';
     ProjectsModule,
     InvitesModule,
     HealthModule,
+    EndpointsModule,
+    SchemasModule,
+    SecurityModule,
+    EnvironmentsModule,
+    SpecModule,
+    LinterModule,
+    GitModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: ProblemDetailsFilter },

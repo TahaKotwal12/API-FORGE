@@ -52,6 +52,20 @@ async function bootstrap() {
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
   await app.listen(port, '0.0.0.0');
   app.get(Logger).log(`Backend running on port ${port}`);
+
+  // Yjs collaboration WebSocket server (separate port to avoid Fastify conflict)
+  const yjsPort = process.env.YJS_PORT ? parseInt(process.env.YJS_PORT, 10) : 4001;
+  try {
+    const { WebSocketServer } = await import('ws');
+    const { setupWSConnection } = await import('y-websocket/bin/utils');
+    const wss = new WebSocketServer({ port: yjsPort });
+    wss.on('connection', (ws: import('ws').WebSocket, req: import('http').IncomingMessage) => {
+      setupWSConnection(ws, req, { gc: true });
+    });
+    app.get(Logger).log(`Yjs WebSocket server running on port ${yjsPort}`);
+  } catch {
+    app.get(Logger).warn('y-websocket not available — real-time collaboration disabled');
+  }
 }
 
 bootstrap();
