@@ -1,0 +1,39 @@
+{% set m = model -%}
+from __future__ import annotations
+from typing import Any, Dict, List, Optional, Union
+from uuid import UUID
+{%- if m.kind == "enum" %}
+from enum import Enum
+{%- else %}
+from pydantic import BaseModel, ConfigDict, Field
+{%- endif %}
+{%- if m.description %}
+
+# {{ m.description }}
+{%- endif %}
+{%- if m.kind == "pydantic" %}
+
+
+class {{ m.class_name }}(BaseModel):
+{%- if m.description %}
+    """{{ m.description }}"""
+{%- endif %}
+    model_config = ConfigDict(populate_by_name=True)
+{%- for f in m.fields %}
+{%- if f.alias %}
+    {{ f.name }}: {%- if not f.required %} Optional[{{ f.py_type }}] = Field(None, alias="{{ f.alias }}"){% else %} {{ f.py_type }} = Field(alias="{{ f.alias }}"){% endif %}
+{%- else %}
+    {{ f.name }}: {%- if not f.required %} Optional[{{ f.py_type }}] = None{% else %} {{ f.py_type }}{% endif %}
+{%- endif %}
+{%- endfor %}
+{%- elif m.kind == "enum" %}
+
+
+class {{ m.class_name }}(str, Enum):
+{%- if m.description %}
+    """{{ m.description }}"""
+{%- endif %}
+{%- for v in m.enum_values %}
+    {{ v.name }} = "{{ v.value }}"
+{%- endfor %}
+{%- endif %}

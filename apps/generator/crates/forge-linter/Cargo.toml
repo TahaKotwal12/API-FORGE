@@ -1,0 +1,11 @@
+[package]
+name = "forge-linter"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+forge-ir = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+serde = { workspace = true }

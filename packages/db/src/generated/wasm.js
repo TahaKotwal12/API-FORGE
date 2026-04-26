@@ -501,6 +501,20 @@ exports.Prisma.ImportScalarFieldEnum = {
   report: 'report'
 };
 
+exports.Prisma.GenerationRunScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  userId: 'userId',
+  language: 'language',
+  mode: 'mode',
+  options: 'options',
+  status: 'status',
+  specHash: 'specHash',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -624,6 +638,13 @@ exports.ImportStatus = exports.$Enums.ImportStatus = {
   FAILED: 'FAILED'
 };
 
+exports.GenerationStatus = exports.$Enums.GenerationStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
@@ -661,7 +682,8 @@ exports.Prisma.ModelName = {
   Plugin: 'Plugin',
   ProjectPlugin: 'ProjectPlugin',
   AuditLog: 'AuditLog',
-  Import: 'Import'
+  Import: 'Import',
+  GenerationRun: 'GenerationRun'
 };
 
 /**

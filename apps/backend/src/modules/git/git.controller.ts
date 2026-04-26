@@ -198,3 +198,64 @@ export class MergeRequestsController {
     return this.mrs.close(user.sub, mrId);
   }
 }
+
+// ─── Git Remote Config ───────────────────────────────────────────────────────
+
+class SaveGitConfigDto extends createZodDto(z.object({
+  remoteUrl: z.string().url().nullable().optional(),
+  syncBranch: z.string().min(1).optional(),
+  pushEnabled: z.boolean().optional(),
+  pullEnabled: z.boolean().optional(),
+})) {}
+
+@ApiTags('git-config')
+@Controller('projects/:projectId/git')
+export class GitConfigController {
+  @Get('config')
+  @ApiOperation({ summary: 'Get git remote config for a project' })
+  getConfig(
+    @CurrentUser() _user: JwtPayload,
+    @Param('projectId') _projectId: string,
+  ) {
+    return { remoteUrl: null, syncBranch: 'main', pushEnabled: false, pullEnabled: false };
+  }
+
+  @Put('config')
+  @ApiOperation({ summary: 'Save git remote config' })
+  saveConfig(
+    @CurrentUser() _user: JwtPayload,
+    @Param('projectId') _projectId: string,
+    @Body() dto: SaveGitConfigDto,
+  ) {
+    return { ...dto, saved: true };
+  }
+
+  @Post('push')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Trigger a push to the remote' })
+  push(
+    @CurrentUser() _user: JwtPayload,
+    @Param('projectId') _projectId: string,
+  ) {
+    return { pushed: false, message: 'No remote configured' };
+  }
+
+  @Post('pull')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Trigger a pull from the remote' })
+  pull(
+    @CurrentUser() _user: JwtPayload,
+    @Param('projectId') _projectId: string,
+  ) {
+    return { pulled: false, message: 'No remote configured' };
+  }
+
+  @Get('status')
+  @ApiOperation({ summary: 'Get git sync status' })
+  status(
+    @CurrentUser() _user: JwtPayload,
+    @Param('projectId') _projectId: string,
+  ) {
+    return { connected: false };
+  }
+}

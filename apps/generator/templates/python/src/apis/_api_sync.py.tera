@@ -1,0 +1,46 @@
+{% set a = api -%}
+from __future__ import annotations
+from typing import Any, Dict, List, Optional, Union
+from uuid import UUID
+from .._runtime import HttpClient, RequestOptions
+from ..models import *
+
+
+class {{ a.class_name }}:
+    def __init__(self, http: HttpClient) -> None:
+        self._http = http
+{% for op in a.operations %}
+    def {{ op.name }}(
+        self,
+{%- for p in op.path_params %}
+        {{ p.name }}: {{ p.py_type }},
+{%- endfor %}
+{%- for p in op.query_params %}
+        {{ p.name }}: Optional[{{ p.py_type }}] = None,
+{%- endfor %}
+{%- if op.has_body %}
+        body: {{ op.body_type }},
+{%- endif %}
+        *,
+        options: Optional[RequestOptions] = None,
+    ) -> {{ op.return_type }}:
+{%- if op.summary %}
+        """{{ op.summary }}"""
+{%- endif %}
+        path = f"{{ op.path | replace(from="{", to="${") }}"
+        return self._http.request(
+            "{{ op.http_method | upper }}",
+            path,
+{%- if op.has_body %}
+            body=body,
+{%- endif %}
+{%- if op.query_params %}
+            params={k: v for k, v in {
+{%- for p in op.query_params %}
+                "{{ p.name }}": {{ p.name }},
+{%- endfor %}
+            }.items() if v is not None},
+{%- endif %}
+            options=options,
+        )
+{% endfor %}

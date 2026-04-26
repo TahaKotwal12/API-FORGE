@@ -20,6 +20,7 @@ import { EnvironmentsModule } from './modules/environments/environments.module';
 import { SpecModule } from './modules/spec/spec.module';
 import { LinterModule } from './modules/linter/linter.module';
 import { GitModule } from './modules/git/git.module';
+import { GeneratorModule } from './modules/generator/generator.module';
 import { ProblemDetailsFilter } from './common/filters/problem-details.filter';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 
@@ -60,6 +61,7 @@ const isProd = process.env.NODE_ENV === 'production';
     SpecModule,
     LinterModule,
     GitModule,
+    GeneratorModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: ProblemDetailsFilter },

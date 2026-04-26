@@ -1,0 +1,13 @@
+package {{ pkg }}_test
+
+import (
+	"testing"
+	client "."
+)
+
+func TestClientInstantiates(t *testing.T) {
+	c := client.New("https://example.com")
+	if c == nil {
+		t.Fatal("expected non-nil client")
+	}
+}

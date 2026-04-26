@@ -134,6 +134,7 @@ model User {
   mergedMrs         MergeRequest[]   @relation("MrMerger")
   mrReviews         MrReview[]
   mrComments        MrComment[]
+  generationRuns    GenerationRun[]  @relation("GenerationRunUser")
 }
 
 model Session {
@@ -262,8 +263,9 @@ model Project {
   loadTestRuns   LoadTestRun[]
   mockRuns       MockRun[]
   scheduledJobs  ScheduledJob[]
-  imports        Import[]
-  mergeRequests  MergeRequest[]
+  imports         Import[]
+  mergeRequests   MergeRequest[]
+  generationRuns  GenerationRun[]
 
   @@unique([orgId, slug])
 }
@@ -695,4 +697,32 @@ model Import {
   report    Json?
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Code Generation ───────────────────────────────
+
+enum GenerationStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model GenerationRun {
+  id           String           @id @default(uuid())
+  projectId    String
+  userId       String
+  language     String
+  mode         String
+  options      Json             @default("{}")
+  status       GenerationStatus @default(PENDING)
+  specHash     String?
+  errorMessage String?
+  createdAt    DateTime         @default(now())
+  completedAt  DateTime?
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation("GenerationRunUser", fields: [userId], references: [id])
+
+  @@index([projectId, createdAt(sort: Desc)])
 }

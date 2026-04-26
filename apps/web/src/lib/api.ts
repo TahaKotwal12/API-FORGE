@@ -496,4 +496,46 @@ export const mrsApi = {
     request<void>(`/projects/${projectId}/merge-requests/${mrId}/close`, { method: 'POST' }),
 };
 
+// ─── Generator ──────────────────────────────────────────────────────────────
+
+export interface GenerationRun {
+  id: string;
+  language: string;
+  mode: string;
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'FAILED';
+  specHash: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+  completedAt: string | null;
+}
+
+export interface GenerationResult {
+  runId: string;
+  language: string;
+  mode: string;
+  specHash: string;
+  bundleBase64: string;
+  fileCount: number;
+}
+
+export const generatorApi = {
+  generate: (
+    projectId: string,
+    opts: {
+      language: string;
+      mode: string;
+      branchName?: string;
+      packageName?: string;
+      packageVersion?: string;
+    },
+  ) =>
+    request<GenerationResult>(`/projects/${projectId}/generate`, {
+      method: 'POST',
+      body: JSON.stringify({ branchName: 'main', ...opts }),
+    }),
+
+  listRuns: (projectId: string) =>
+    request<GenerationRun[]>(`/projects/${projectId}/generations`),
+};
+
 export { ApiClientError };

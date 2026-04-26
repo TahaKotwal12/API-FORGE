@@ -1,0 +1,65 @@
+{% set a = api -%}
+import type { HttpClient, RequestOptions } from '../runtime.js';
+{%- if a.imports %}
+import type {
+{%- for imp in a.imports %}
+  {{ imp }},
+{%- endfor %}
+} from '../models/index.js';
+{%- endif %}
+
+export class {{ a.class_name }} {
+  constructor(private readonly http: HttpClient) {}
+{% for op in a.operations %}
+{%- if op.summary or op.description %}
+  /**
+{%- if op.summary %}
+   * {{ op.summary }}
+{%- endif %}
+{%- if op.description %}
+   *
+   * {{ op.description }}
+{%- endif %}
+{%- for p in op.all_params %}
+   * @param {{ p.name }} {{ p.description | default(value="") }}
+{%- endfor %}
+   */
+{%- endif %}
+{%- if op.deprecated %}
+  /** @deprecated */
+{%- endif %}
+  async {{ op.id }}(
+{%- for p in op.path_params %}
+    {{ p.name }}: {{ p.ts_type }},
+{%- endfor %}
+{%- for p in op.query_params %}
+    {{ p.name }}{% if not p.required %}?{% endif %}: {{ p.ts_type }},
+{%- endfor %}
+{%- if op.has_body %}
+    body: {{ op.body_type }},
+{%- endif %}
+    options?: RequestOptions,
+  ): Promise<{{ op.return_type }}> {
+{%- if op.path_params %}
+    const path = `{{ op.path_template }}`;
+{%- else %}
+    const path = '{{ op.path }}';
+{%- endif %}
+    return this.http.request<{{ op.return_type }}>({
+      method: '{{ op.http_method }}',
+      path,
+{%- if op.query_params %}
+      query: {
+{%- for p in op.query_params %}
+        '{{ p.name }}': {{ p.name }},
+{%- endfor %}
+      },
+{%- endif %}
+{%- if op.has_body %}
+      body,
+{%- endif %}
+      options,
+    });
+  }
+{% endfor %}
+}

@@ -1,0 +1,21 @@
+package {{ package }};
+
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Configuration {
+    private String baseUrl;
+    private String bearerToken;
+    private String apiKey;
+    private Duration connectTimeout = Duration.ofSeconds(10);
+    private Duration readTimeout = Duration.ofSeconds(30);
+    private Map<String, String> defaultHeaders = new HashMap<>();
+
+    public Configuration baseUrl(String v) { this.baseUrl = v; return this; }
+    public Configuration bearerToken(String v) { this.bearerToken = v; return this; }
+    public Configuration apiKey(String v) { this.apiKey = v; return this; }
+    public String getBaseUrl() { return baseUrl; }
+    public String getBearerToken() { return bearerToken; }
+    public String getApiKey() { return apiKey; }
+}

@@ -1,0 +1,6 @@
+version: 1
+org: tahas-org
+project: api
+default_branch: main
+spec_file: openapi.yaml
+base_url: http://localhost:4000

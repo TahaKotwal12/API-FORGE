@@ -1,0 +1,34 @@
+{% set m = model -%}
+use serde::{Deserialize, Serialize};
+{%- if m.description %}
+
+/// {{ m.description }}
+{%- endif %}
+{%- if m.kind == "struct" %}
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+#[serde(rename_all = "camelCase")]
+pub struct {{ m.name }} {
+{%- for f in m.fields %}
+{%- if f.description %}
+    /// {{ f.description }}
+{%- endif %}
+{%- if f.serde_rename %}
+    #[serde(rename = "{{ f.serde_rename }}"{% if f.optional %}, skip_serializing_if = "Option::is_none"{% endif %})]
+{%- elif f.optional %}
+    #[serde(skip_serializing_if = "Option::is_none")]
+{%- endif %}
+    pub {{ f.name }}: {{ f.rust_type }},
+{%- endfor %}
+}
+{%- elif m.kind == "enum" %}
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum {{ m.name }} {
+{%- for v in m.enum_variants %}
+    #[serde(rename = "{{ v.value }}")]
+    {{ v.name }},
+{%- endfor %}
+}
+{%- elif m.kind == "alias" %}
+pub type {{ m.name }} = serde_json::Value;
+{%- endif %}

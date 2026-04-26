@@ -1,0 +1,34 @@
+{% set s = schema -%}
+{%- if s.description %}
+/**
+ * {{ s.description }}
+ */
+{%- endif %}
+{%- if s.kind == "interface" %}
+export interface {{ s.name }} {
+{%- for field in s.fields %}
+{%- if field.description %}
+  /** {{ field.description }} */
+{%- endif %}
+  {{ field.name }}{% if not field.required %}?{% endif %}: {{ field.ts_type }};
+{%- endfor %}
+}
+{%- elif s.kind == "enum" %}
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const {{ s.name }} = {
+{%- for v in s.enum_values %}
+  {{ v.key }}: '{{ v.value }}',
+{%- endfor %}
+} as const;
+export type {{ s.name }} = (typeof {{ s.name }})[keyof typeof {{ s.name }}];
+{%- elif s.kind == "alias" %}
+export type {{ s.name }} = {{ s.alias_type }};
+{%- elif s.kind == "one_of" %}
+export type {{ s.name }} =
+{%- for t in s.one_of_types %}
+  | {{ t }}
+{%- endfor %}
+;
+{%- elif s.kind == "all_of" %}
+export type {{ s.name }} = {{ s.all_of_types | join(sep=" & ") }};
+{%- endif %}

@@ -1,0 +1,29 @@
+package {{ pkg }}
+
+import (
+	"errors"
+	"fmt"
+)
+
+// APIError represents an error returned by the API.
+type APIError struct {
+	Status    int
+	Body      []byte
+	RequestID string
+	Message   string
+}
+
+func (e *APIError) Error() string { return fmt.Sprintf("HTTP %d: %s", e.Status, e.Message) }
+
+var (
+	ErrUnauthorized = errors.New("unauthorized")
+	ErrForbidden    = errors.New("forbidden")
+	ErrNotFound     = errors.New("not found")
+	ErrConflict     = errors.New("conflict")
+	ErrRateLimit    = errors.New("rate limited")
+)
+
+type NotFoundError struct{ *APIError }
+func (e *NotFoundError) Is(target error) bool { return target == ErrNotFound }
+type UnauthorizedError struct{ *APIError }
+func (e *UnauthorizedError) Is(target error) bool { return target == ErrUnauthorized }

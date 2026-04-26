@@ -1,0 +1,72 @@
+import type { Configuration } from './config.js';
+import { throwForStatus } from './errors.js';
+
+export interface RequestOptions {
+  signal?: AbortSignal;
+  headers?: Record<string, string>;
+}
+
+export interface RequestArgs {
+  method: string;
+  path: string;
+  query?: Record<string, string | number | boolean | undefined>;
+  body?: unknown;
+  options?: RequestOptions;
+}
+
+export class HttpClient {
+  private readonly config: Required<Pick<Configuration, 'baseUrl'>> & Configuration;
+
+  constructor(config: Configuration) {
+    this.config = config;
+  }
+
+  async request<T>(args: RequestArgs): Promise<T> {
+    const { method, path, query, body, options } = args;
+
+    let url = `${this.config.baseUrl}${path}`;
+    if (query) {
+      const params = new URLSearchParams();
+      for (const [k, v] of Object.entries(query)) {
+        if (v !== undefined) params.set(k, String(v));
+      }
+      const qs = params.toString();
+      if (qs) url += `?${qs}`;
+    }
+
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      ...this.config.headers,
+      ...options?.headers,
+    };
+
+    if (this.config.bearerToken) {
+      headers['Authorization'] = `Bearer ${this.config.bearerToken}`;
+    } else if (this.config.apiKey) {
+      headers['X-Api-Key'] = this.config.apiKey;
+    } else if (this.config.basicAuth) {
+      const { username, password } = this.config.basicAuth;
+      headers['Authorization'] = `Basic ${btoa(`${username}:${password}`)}`;
+    }
+
+    const fetchImpl = this.config.fetch ?? globalThis.fetch;
+    const res = await fetchImpl(url, {
+      method,
+      headers,
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal: options?.signal,
+    });
+
+    const requestId = res.headers.get('x-request-id') ?? undefined;
+
+    if (!res.ok) {
+      let errorBody: unknown;
+      try { errorBody = await res.json(); } catch { errorBody = await res.text(); }
+      throwForStatus(res.status, errorBody, requestId);
+    }
+
+    if (res.status === 204) return undefined as T;
+    return res.json() as Promise<T>;
+  }
+}

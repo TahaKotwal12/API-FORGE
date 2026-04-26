@@ -1,0 +1,33 @@
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+    public readonly body: unknown,
+    public readonly requestId?: string,
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+export class ValidationError extends ApiError { constructor(m: string, b: unknown, rid?: string) { super(m, 400, b, rid); this.name = 'ValidationError'; } }
+export class UnauthorizedError extends ApiError { constructor(m: string, b: unknown, rid?: string) { super(m, 401, b, rid); this.name = 'UnauthorizedError'; } }
+export class ForbiddenError extends ApiError { constructor(m: string, b: unknown, rid?: string) { super(m, 403, b, rid); this.name = 'ForbiddenError'; } }
+export class NotFoundError extends ApiError { constructor(m: string, b: unknown, rid?: string) { super(m, 404, b, rid); this.name = 'NotFoundError'; } }
+export class ConflictError extends ApiError { constructor(m: string, b: unknown, rid?: string) { super(m, 409, b, rid); this.name = 'ConflictError'; } }
+export class RateLimitError extends ApiError {
+  constructor(m: string, b: unknown, public readonly retryAfter?: number, rid?: string) { super(m, 429, b, rid); this.name = 'RateLimitError'; }
+}
+export class ServerError extends ApiError { constructor(m: string, s: number, b: unknown, rid?: string) { super(m, s, b, rid); this.name = 'ServerError'; } }
+
+export function throwForStatus(status: number, body: unknown, requestId?: string): never {
+  const msg = `HTTP ${status}`;
+  if (status === 400) throw new ValidationError(msg, body, requestId);
+  if (status === 401) throw new UnauthorizedError(msg, body, requestId);
+  if (status === 403) throw new ForbiddenError(msg, body, requestId);
+  if (status === 404) throw new NotFoundError(msg, body, requestId);
+  if (status === 409) throw new ConflictError(msg, body, requestId);
+  if (status === 429) throw new RateLimitError(msg, body, undefined, requestId);
+  if (status >= 500) throw new ServerError(msg, status, body, requestId);
+  throw new ApiError(msg, status, body, requestId);
+}

@@ -1,0 +1,26 @@
+{% set m = model -%}
+package models
+
+import "time"
+
+{%- if m.description %}
+// {{ m.name }} — {{ m.description }}
+{%- endif %}
+{%- if m.kind == "struct" %}
+type {{ m.name }} struct {
+{%- for f in m.fields %}
+{%- if f.description %}
+	// {{ f.description }}
+{%- endif %}
+	{{ f.name }} {{ f.go_type }} `json:"{{ f.json_tag }}"`
+{%- endfor %}
+}
+{%- elif m.kind == "enum" %}
+type {{ m.name }} {{ m.enum_type }}
+
+const (
+{%- for v in m.enum_values %}
+	{{ v.const_name }} {{ v.type_name }} = "{{ v.value }}"
+{%- endfor %}
+)
+{%- endif %}

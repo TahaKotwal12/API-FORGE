@@ -1,0 +1,29 @@
+{% set a = api -%}
+package {{ a.pkg }}
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+)
+{% for op in a.ops %}
+{%- if op.comment %}
+// {{ op.func_name }} — {{ op.comment }}
+{%- endif %}
+func (c *Client) {{ op.func_name }}(ctx context.Context{% for p in op.path_params %}, {{ p.name }} {{ p.go_type }}{% endfor %}{% if op.has_body %}, body {{ op.body_type }}{% endif %}) ({% if op.return_type %}*{{ op.return_type }}, {% endif %}error) {
+{%- if op.path_params %}
+	path := fmt.Sprintf("{{ op.path_fmt }}"{% for p in op.path_params %}, {{ p.name }}{% endfor %})
+{%- else %}
+	path := "{{ op.path }}"
+{%- endif %}
+{%- if op.return_type %}
+	var result {{ op.return_type }}
+	if err := c.do(ctx, http.Method{{ op.http_method | title }}, path, {% if op.has_body %}body{% else %}nil{% endif %}, &result); err != nil {
+		return nil, err
+	}
+	return &result, nil
+{%- else %}
+	return c.do(ctx, http.Method{{ op.http_method | title }}, path, {% if op.has_body %}body{% else %}nil{% endif %}, nil)
+{%- endif %}
+}
+{% endfor %}

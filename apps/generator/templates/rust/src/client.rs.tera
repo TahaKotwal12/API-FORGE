@@ -1,0 +1,52 @@
+use crate::error::ApiError;
+use reqwest::{Client as ReqwestClient, Method, StatusCode};
+use serde::{de::DeserializeOwned, Serialize};
+
+pub struct Client {
+    base_url: String,
+    inner: ReqwestClient,
+}
+
+impl Client {
+    pub fn new(base_url: impl Into<String>) -> Self {
+        Self { base_url: base_url.into(), inner: ReqwestClient::new() }
+    }
+
+    pub fn with_bearer_token(base_url: impl Into<String>, token: impl Into<String>) -> Self {
+        let mut headers = reqwest::header::HeaderMap::new();
+        let val = reqwest::header::HeaderValue::from_str(&format!("Bearer {}", token.into())).unwrap();
+        headers.insert(reqwest::header::AUTHORIZATION, val);
+        let inner = ReqwestClient::builder().default_headers(headers).build().unwrap();
+        Self { base_url: base_url.into(), inner }
+    }
+
+    pub(crate) async fn request<B, R>(&self, method: Method, path: &str, body: Option<&B>) -> Result<R, ApiError>
+    where
+        B: Serialize,
+        R: DeserializeOwned + Default,
+    {
+        let url = format!("{}{}", self.base_url, path);
+        let mut req = self.inner.request(method, &url);
+        if let Some(b) = body { req = req.json(b); }
+        let resp = req.send().await?;
+        let status = resp.status();
+        if !status.is_success() {
+            let body = resp.text().await.unwrap_or_default();
+            return Err(match status {
+                StatusCode::UNAUTHORIZED => ApiError::Unauthorized,
+                StatusCode::FORBIDDEN => ApiError::Forbidden,
+                StatusCode::NOT_FOUND => ApiError::NotFound,
+                StatusCode::CONFLICT => ApiError::Conflict(body),
+                StatusCode::UNPROCESSABLE_ENTITY => ApiError::Validation(body),
+                StatusCode::TOO_MANY_REQUESTS => ApiError::RateLimit,
+                s if s.is_server_error() => ApiError::Server(s.as_u16(), body),
+                s => ApiError::Server(s.as_u16(), body),
+            });
+        }
+        if status == StatusCode::NO_CONTENT {
+            return Ok(R::default());
+        }
+        let text = resp.text().await?;
+        serde_json::from_str(&text).map_err(ApiError::from)
+    }
+}

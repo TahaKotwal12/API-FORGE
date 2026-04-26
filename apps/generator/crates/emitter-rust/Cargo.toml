@@ -1,0 +1,16 @@
+[package]
+name = "emitter-rust"
+version = "0.1.0"
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+forge-ir = { workspace = true }
+forge-templates = { workspace = true }
+forge-bundler = { workspace = true }
+anyhow = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tera = { workspace = true }
+heck = { workspace = true }
+indexmap = { workspace = true }

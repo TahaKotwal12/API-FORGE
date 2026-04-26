@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
   Plus, ChevronRight, ChevronDown, Search, Code2, FileJson, Layers,
-  GitBranch, GitMerge, History, Settings2, Check, X,
+  GitBranch, GitMerge, History, Settings2, Check, X, Zap,
 } from 'lucide-react';
 import { orgsApi, projectsApi, endpointsApi, branchesApi, mrsApi } from '@/lib/api';
 import type { Endpoint, Branch } from '@/lib/api';
@@ -243,6 +243,7 @@ function EndpointTree({ projectId, orgSlug, projectSlug, branch, activeEndpointI
           { href: `/orgs/${orgSlug}/projects/${projectSlug}/commits`, icon: History, label: 'History' },
           { href: `/orgs/${orgSlug}/projects/${projectSlug}/mrs`, icon: GitMerge, label: 'Merge Requests' },
           { href: `/orgs/${orgSlug}/projects/${projectSlug}/settings/git`, icon: Settings2, label: 'Git Settings' },
+          { href: `/orgs/${orgSlug}/projects/${projectSlug}/generate`, icon: Zap, label: 'Generate SDK' },
         ].map(({ href, icon: Icon, label }) => (
           <Link
             key={href}

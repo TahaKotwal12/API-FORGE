@@ -1,0 +1,13 @@
+import { HttpClient } from './runtime.js';
+import type { Configuration } from './config.js';
+export type { Configuration } from './config.js';
+
+export class Client {
+  private readonly http: HttpClient;
+
+  constructor(config: Configuration) {
+    this.http = new HttpClient(config);
+  }
+}
+
+export { HttpClient } from './runtime.js';

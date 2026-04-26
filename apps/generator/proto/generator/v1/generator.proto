@@ -1,0 +1,70 @@
+syntax = "proto3";
+package generator.v1;
+
+service Generator {
+  rpc Generate(GenerateRequest) returns (GenerateResponse);
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+  rpc Languages(Empty) returns (LanguagesResponse);
+  rpc Modes(ModesRequest) returns (ModesResponse);
+  rpc StreamGenerate(GenerateRequest) returns (stream GenerateProgress);
+}
+
+message Empty {}
+
+message GenerateRequest {
+  bytes spec = 1;
+  string language = 2;
+  string mode = 3;
+  string package_name = 4;
+  string package_version = 5;
+  map<string, string> options = 6;
+}
+
+message GenerateResponse {
+  bytes bundle = 1;
+  string spec_hash = 2;
+  string language = 3;
+  string mode = 4;
+  repeated Diagnostic diagnostics = 5;
+}
+
+message GenerateProgress {
+  string stage = 1;
+  int32 percent = 2;
+  string message = 3;
+  bool done = 4;
+  bytes bundle = 5;
+}
+
+message ValidateRequest {
+  bytes spec = 1;
+}
+
+message ValidateResponse {
+  repeated Diagnostic diagnostics = 1;
+}
+
+message Diagnostic {
+  string severity = 1;
+  string code = 2;
+  string message = 3;
+  string path = 4;
+}
+
+message LanguagesResponse {
+  repeated LanguageInfo languages = 1;
+}
+
+message LanguageInfo {
+  string id = 1;
+  string name = 2;
+  repeated string modes = 3;
+}
+
+message ModesRequest {
+  string language = 1;
+}
+
+message ModesResponse {
+  repeated string modes = 1;
+}

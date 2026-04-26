@@ -1,0 +1,7 @@
+from {{ pkg }}._runtime import Configuration, HttpClient
+
+
+def test_client_instantiates() -> None:
+    cfg = Configuration(base_url="https://example.com")
+    client = HttpClient(cfg)
+    client.close()

@@ -1,0 +1,33 @@
+{% set m = model -%}
+package {{ m.package }};
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+{% if m.description %}/** {{ m.description }} */{% endif %}
+{%- if m.kind == "record" %}
+public record {{ m.name }}(
+{%- for f in m.fields %}
+    @JsonProperty("{{ f.json_property }}") {{ f.java_type }} {{ f.name }}{% if not loop.last %},{% endif %}
+{%- endfor %}
+) {}
+{%- elif m.kind == "enum" %}
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+public enum {{ m.name }} {
+{%- for v in m.enum_values %}
+    {{ v.constant }}("{{ v.value }}"){% if not loop.last %},{% endif %}
+{%- endfor %}
+;
+    private final String value;
+    {{ m.name }}(String value) { this.value = value; }
+    @JsonValue public String getValue() { return value; }
+    @JsonCreator public static {{ m.name }} fromValue(String v) {
+        for ({{ m.name }} e : values()) if (e.value.equals(v)) return e;
+        throw new IllegalArgumentException("Unknown: " + v);
+    }
+}
+{%- endif %}

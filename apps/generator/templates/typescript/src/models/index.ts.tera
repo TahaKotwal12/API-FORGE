@@ -1,0 +1,3 @@
+{% for m in models -%}
+export * from './{{ m }}.js';
+{% endfor %}

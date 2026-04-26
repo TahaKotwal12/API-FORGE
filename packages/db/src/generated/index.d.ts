@@ -198,6 +198,11 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  * 
  */
 export type Import = $Result.DefaultSelection<Prisma.$ImportPayload>
+/**
+ * Model GenerationRun
+ * 
+ */
+export type GenerationRun = $Result.DefaultSelection<Prisma.$GenerationRunPayload>
 
 /**
  * Enums
@@ -332,6 +337,16 @@ export const ImportStatus: {
 
 export type ImportStatus = (typeof ImportStatus)[keyof typeof ImportStatus]
 
+
+export const GenerationStatus: {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type GenerationStatus = (typeof GenerationStatus)[keyof typeof GenerationStatus]
+
 }
 
 export type Plan = $Enums.Plan
@@ -381,6 +396,10 @@ export const ImportSource: typeof $Enums.ImportSource
 export type ImportStatus = $Enums.ImportStatus
 
 export const ImportStatus: typeof $Enums.ImportStatus
+
+export type GenerationStatus = $Enums.GenerationStatus
+
+export const GenerationStatus: typeof $Enums.GenerationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -874,6 +893,16 @@ export class PrismaClient<
     * ```
     */
   get import(): Prisma.ImportDelegate<ExtArgs>;
+
+  /**
+   * `prisma.generationRun`: Exposes CRUD operations for the **GenerationRun** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GenerationRuns
+    * const generationRuns = await prisma.generationRun.findMany()
+    * ```
+    */
+  get generationRun(): Prisma.GenerationRunDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1351,7 +1380,8 @@ export namespace Prisma {
     Plugin: 'Plugin',
     ProjectPlugin: 'ProjectPlugin',
     AuditLog: 'AuditLog',
-    Import: 'Import'
+    Import: 'Import',
+    GenerationRun: 'GenerationRun'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1367,7 +1397,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "session" | "mfaSecret" | "refreshToken" | "organization" | "membership" | "team" | "teamMember" | "invite" | "project" | "branch" | "commit" | "specSnapshot" | "endpoint" | "schemaComponent" | "securityScheme" | "environment" | "secret" | "mockRule" | "mockRun" | "testSuite" | "testScenario" | "testCase" | "testRun" | "loadTestRun" | "docPortal" | "docVersion" | "mergeRequest" | "mrReview" | "mrComment" | "scheduledJob" | "agentToken" | "agentActivity" | "plugin" | "projectPlugin" | "auditLog" | "import"
+      modelProps: "user" | "session" | "mfaSecret" | "refreshToken" | "organization" | "membership" | "team" | "teamMember" | "invite" | "project" | "branch" | "commit" | "specSnapshot" | "endpoint" | "schemaComponent" | "securityScheme" | "environment" | "secret" | "mockRule" | "mockRun" | "testSuite" | "testScenario" | "testCase" | "testRun" | "loadTestRun" | "docPortal" | "docVersion" | "mergeRequest" | "mrReview" | "mrComment" | "scheduledJob" | "agentToken" | "agentActivity" | "plugin" | "projectPlugin" | "auditLog" | "import" | "generationRun"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3961,6 +3991,76 @@ export namespace Prisma {
           }
         }
       }
+      GenerationRun: {
+        payload: Prisma.$GenerationRunPayload<ExtArgs>
+        fields: Prisma.GenerationRunFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GenerationRunFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GenerationRunFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          findFirst: {
+            args: Prisma.GenerationRunFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GenerationRunFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          findMany: {
+            args: Prisma.GenerationRunFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>[]
+          }
+          create: {
+            args: Prisma.GenerationRunCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          createMany: {
+            args: Prisma.GenerationRunCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GenerationRunCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>[]
+          }
+          delete: {
+            args: Prisma.GenerationRunDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          update: {
+            args: Prisma.GenerationRunUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          deleteMany: {
+            args: Prisma.GenerationRunDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GenerationRunUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.GenerationRunUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GenerationRunPayload>
+          }
+          aggregate: {
+            args: Prisma.GenerationRunAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGenerationRun>
+          }
+          groupBy: {
+            args: Prisma.GenerationRunGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GenerationRunGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GenerationRunCountArgs<ExtArgs>
+            result: $Utils.Optional<GenerationRunCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4135,6 +4235,7 @@ export namespace Prisma {
     mergedMrs: number
     mrReviews: number
     mrComments: number
+    generationRuns: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4151,6 +4252,7 @@ export namespace Prisma {
     mergedMrs?: boolean | UserCountOutputTypeCountMergedMrsArgs
     mrReviews?: boolean | UserCountOutputTypeCountMrReviewsArgs
     mrComments?: boolean | UserCountOutputTypeCountMrCommentsArgs
+    generationRuns?: boolean | UserCountOutputTypeCountGenerationRunsArgs
   }
 
   // Custom InputTypes
@@ -4253,6 +4355,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMrCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MrCommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGenerationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GenerationRunWhereInput
   }
 
 
@@ -4381,6 +4490,7 @@ export namespace Prisma {
     scheduledJobs: number
     imports: number
     mergeRequests: number
+    generationRuns: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4397,6 +4507,7 @@ export namespace Prisma {
     scheduledJobs?: boolean | ProjectCountOutputTypeCountScheduledJobsArgs
     imports?: boolean | ProjectCountOutputTypeCountImportsArgs
     mergeRequests?: boolean | ProjectCountOutputTypeCountMergeRequestsArgs
+    generationRuns?: boolean | ProjectCountOutputTypeCountGenerationRunsArgs
   }
 
   // Custom InputTypes
@@ -4499,6 +4610,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountMergeRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MergeRequestWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountGenerationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GenerationRunWhereInput
   }
 
 
@@ -5139,6 +5257,7 @@ export namespace Prisma {
     mergedMrs?: boolean | User$mergedMrsArgs<ExtArgs>
     mrReviews?: boolean | User$mrReviewsArgs<ExtArgs>
     mrComments?: boolean | User$mrCommentsArgs<ExtArgs>
+    generationRuns?: boolean | User$generationRunsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5179,6 +5298,7 @@ export namespace Prisma {
     mergedMrs?: boolean | User$mergedMrsArgs<ExtArgs>
     mrReviews?: boolean | User$mrReviewsArgs<ExtArgs>
     mrComments?: boolean | User$mrCommentsArgs<ExtArgs>
+    generationRuns?: boolean | User$generationRunsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5200,6 +5320,7 @@ export namespace Prisma {
       mergedMrs: Prisma.$MergeRequestPayload<ExtArgs>[]
       mrReviews: Prisma.$MrReviewPayload<ExtArgs>[]
       mrComments: Prisma.$MrCommentPayload<ExtArgs>[]
+      generationRuns: Prisma.$GenerationRunPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5588,6 +5709,7 @@ export namespace Prisma {
     mergedMrs<T extends User$mergedMrsArgs<ExtArgs> = {}>(args?: Subset<T, User$mergedMrsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MergeRequestPayload<ExtArgs>, T, "findMany"> | Null>
     mrReviews<T extends User$mrReviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$mrReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrReviewPayload<ExtArgs>, T, "findMany"> | Null>
     mrComments<T extends User$mrCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$mrCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MrCommentPayload<ExtArgs>, T, "findMany"> | Null>
+    generationRuns<T extends User$generationRunsArgs<ExtArgs> = {}>(args?: Subset<T, User$generationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6211,6 +6333,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MrCommentScalarFieldEnum | MrCommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.generationRuns
+   */
+  export type User$generationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    where?: GenerationRunWhereInput
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    cursor?: GenerationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GenerationRunScalarFieldEnum | GenerationRunScalarFieldEnum[]
   }
 
   /**
@@ -14145,6 +14287,7 @@ export namespace Prisma {
     scheduledJobs?: boolean | Project$scheduledJobsArgs<ExtArgs>
     imports?: boolean | Project$importsArgs<ExtArgs>
     mergeRequests?: boolean | Project$mergeRequestsArgs<ExtArgs>
+    generationRuns?: boolean | Project$generationRunsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -14196,6 +14339,7 @@ export namespace Prisma {
     scheduledJobs?: boolean | Project$scheduledJobsArgs<ExtArgs>
     imports?: boolean | Project$importsArgs<ExtArgs>
     mergeRequests?: boolean | Project$mergeRequestsArgs<ExtArgs>
+    generationRuns?: boolean | Project$generationRunsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14219,6 +14363,7 @@ export namespace Prisma {
       scheduledJobs: Prisma.$ScheduledJobPayload<ExtArgs>[]
       imports: Prisma.$ImportPayload<ExtArgs>[]
       mergeRequests: Prisma.$MergeRequestPayload<ExtArgs>[]
+      generationRuns: Prisma.$GenerationRunPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14612,6 +14757,7 @@ export namespace Prisma {
     scheduledJobs<T extends Project$scheduledJobsArgs<ExtArgs> = {}>(args?: Subset<T, Project$scheduledJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScheduledJobPayload<ExtArgs>, T, "findMany"> | Null>
     imports<T extends Project$importsArgs<ExtArgs> = {}>(args?: Subset<T, Project$importsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImportPayload<ExtArgs>, T, "findMany"> | Null>
     mergeRequests<T extends Project$mergeRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Project$mergeRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MergeRequestPayload<ExtArgs>, T, "findMany"> | Null>
+    generationRuns<T extends Project$generationRunsArgs<ExtArgs> = {}>(args?: Subset<T, Project$generationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15229,6 +15375,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MergeRequestScalarFieldEnum | MergeRequestScalarFieldEnum[]
+  }
+
+  /**
+   * Project.generationRuns
+   */
+  export type Project$generationRunsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    where?: GenerationRunWhereInput
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    cursor?: GenerationRunWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GenerationRunScalarFieldEnum | GenerationRunScalarFieldEnum[]
   }
 
   /**
@@ -42042,6 +42208,1013 @@ export namespace Prisma {
 
 
   /**
+   * Model GenerationRun
+   */
+
+  export type AggregateGenerationRun = {
+    _count: GenerationRunCountAggregateOutputType | null
+    _min: GenerationRunMinAggregateOutputType | null
+    _max: GenerationRunMaxAggregateOutputType | null
+  }
+
+  export type GenerationRunMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    userId: string | null
+    language: string | null
+    mode: string | null
+    status: $Enums.GenerationStatus | null
+    specHash: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type GenerationRunMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    userId: string | null
+    language: string | null
+    mode: string | null
+    status: $Enums.GenerationStatus | null
+    specHash: string | null
+    errorMessage: string | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type GenerationRunCountAggregateOutputType = {
+    id: number
+    projectId: number
+    userId: number
+    language: number
+    mode: number
+    options: number
+    status: number
+    specHash: number
+    errorMessage: number
+    createdAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type GenerationRunMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    userId?: true
+    language?: true
+    mode?: true
+    status?: true
+    specHash?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type GenerationRunMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    userId?: true
+    language?: true
+    mode?: true
+    status?: true
+    specHash?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type GenerationRunCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    userId?: true
+    language?: true
+    mode?: true
+    options?: true
+    status?: true
+    specHash?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type GenerationRunAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GenerationRun to aggregate.
+     */
+    where?: GenerationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GenerationRuns to fetch.
+     */
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GenerationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GenerationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GenerationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GenerationRuns
+    **/
+    _count?: true | GenerationRunCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GenerationRunMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GenerationRunMaxAggregateInputType
+  }
+
+  export type GetGenerationRunAggregateType<T extends GenerationRunAggregateArgs> = {
+        [P in keyof T & keyof AggregateGenerationRun]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGenerationRun[P]>
+      : GetScalarType<T[P], AggregateGenerationRun[P]>
+  }
+
+
+
+
+  export type GenerationRunGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GenerationRunWhereInput
+    orderBy?: GenerationRunOrderByWithAggregationInput | GenerationRunOrderByWithAggregationInput[]
+    by: GenerationRunScalarFieldEnum[] | GenerationRunScalarFieldEnum
+    having?: GenerationRunScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GenerationRunCountAggregateInputType | true
+    _min?: GenerationRunMinAggregateInputType
+    _max?: GenerationRunMaxAggregateInputType
+  }
+
+  export type GenerationRunGroupByOutputType = {
+    id: string
+    projectId: string
+    userId: string
+    language: string
+    mode: string
+    options: JsonValue
+    status: $Enums.GenerationStatus
+    specHash: string | null
+    errorMessage: string | null
+    createdAt: Date
+    completedAt: Date | null
+    _count: GenerationRunCountAggregateOutputType | null
+    _min: GenerationRunMinAggregateOutputType | null
+    _max: GenerationRunMaxAggregateOutputType | null
+  }
+
+  type GetGenerationRunGroupByPayload<T extends GenerationRunGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GenerationRunGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GenerationRunGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GenerationRunGroupByOutputType[P]>
+            : GetScalarType<T[P], GenerationRunGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GenerationRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    userId?: boolean
+    language?: boolean
+    mode?: boolean
+    options?: boolean
+    status?: boolean
+    specHash?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["generationRun"]>
+
+  export type GenerationRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    userId?: boolean
+    language?: boolean
+    mode?: boolean
+    options?: boolean
+    status?: boolean
+    specHash?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["generationRun"]>
+
+  export type GenerationRunSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    userId?: boolean
+    language?: boolean
+    mode?: boolean
+    options?: boolean
+    status?: boolean
+    specHash?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type GenerationRunInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type GenerationRunIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $GenerationRunPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GenerationRun"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      userId: string
+      language: string
+      mode: string
+      options: Prisma.JsonValue
+      status: $Enums.GenerationStatus
+      specHash: string | null
+      errorMessage: string | null
+      createdAt: Date
+      completedAt: Date | null
+    }, ExtArgs["result"]["generationRun"]>
+    composites: {}
+  }
+
+  type GenerationRunGetPayload<S extends boolean | null | undefined | GenerationRunDefaultArgs> = $Result.GetResult<Prisma.$GenerationRunPayload, S>
+
+  type GenerationRunCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<GenerationRunFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: GenerationRunCountAggregateInputType | true
+    }
+
+  export interface GenerationRunDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GenerationRun'], meta: { name: 'GenerationRun' } }
+    /**
+     * Find zero or one GenerationRun that matches the filter.
+     * @param {GenerationRunFindUniqueArgs} args - Arguments to find a GenerationRun
+     * @example
+     * // Get one GenerationRun
+     * const generationRun = await prisma.generationRun.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GenerationRunFindUniqueArgs>(args: SelectSubset<T, GenerationRunFindUniqueArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one GenerationRun that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {GenerationRunFindUniqueOrThrowArgs} args - Arguments to find a GenerationRun
+     * @example
+     * // Get one GenerationRun
+     * const generationRun = await prisma.generationRun.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GenerationRunFindUniqueOrThrowArgs>(args: SelectSubset<T, GenerationRunFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first GenerationRun that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunFindFirstArgs} args - Arguments to find a GenerationRun
+     * @example
+     * // Get one GenerationRun
+     * const generationRun = await prisma.generationRun.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GenerationRunFindFirstArgs>(args?: SelectSubset<T, GenerationRunFindFirstArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first GenerationRun that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunFindFirstOrThrowArgs} args - Arguments to find a GenerationRun
+     * @example
+     * // Get one GenerationRun
+     * const generationRun = await prisma.generationRun.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GenerationRunFindFirstOrThrowArgs>(args?: SelectSubset<T, GenerationRunFindFirstOrThrowArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more GenerationRuns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GenerationRuns
+     * const generationRuns = await prisma.generationRun.findMany()
+     * 
+     * // Get first 10 GenerationRuns
+     * const generationRuns = await prisma.generationRun.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const generationRunWithIdOnly = await prisma.generationRun.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GenerationRunFindManyArgs>(args?: SelectSubset<T, GenerationRunFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a GenerationRun.
+     * @param {GenerationRunCreateArgs} args - Arguments to create a GenerationRun.
+     * @example
+     * // Create one GenerationRun
+     * const GenerationRun = await prisma.generationRun.create({
+     *   data: {
+     *     // ... data to create a GenerationRun
+     *   }
+     * })
+     * 
+     */
+    create<T extends GenerationRunCreateArgs>(args: SelectSubset<T, GenerationRunCreateArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many GenerationRuns.
+     * @param {GenerationRunCreateManyArgs} args - Arguments to create many GenerationRuns.
+     * @example
+     * // Create many GenerationRuns
+     * const generationRun = await prisma.generationRun.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GenerationRunCreateManyArgs>(args?: SelectSubset<T, GenerationRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GenerationRuns and returns the data saved in the database.
+     * @param {GenerationRunCreateManyAndReturnArgs} args - Arguments to create many GenerationRuns.
+     * @example
+     * // Create many GenerationRuns
+     * const generationRun = await prisma.generationRun.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GenerationRuns and only return the `id`
+     * const generationRunWithIdOnly = await prisma.generationRun.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GenerationRunCreateManyAndReturnArgs>(args?: SelectSubset<T, GenerationRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a GenerationRun.
+     * @param {GenerationRunDeleteArgs} args - Arguments to delete one GenerationRun.
+     * @example
+     * // Delete one GenerationRun
+     * const GenerationRun = await prisma.generationRun.delete({
+     *   where: {
+     *     // ... filter to delete one GenerationRun
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GenerationRunDeleteArgs>(args: SelectSubset<T, GenerationRunDeleteArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one GenerationRun.
+     * @param {GenerationRunUpdateArgs} args - Arguments to update one GenerationRun.
+     * @example
+     * // Update one GenerationRun
+     * const generationRun = await prisma.generationRun.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GenerationRunUpdateArgs>(args: SelectSubset<T, GenerationRunUpdateArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more GenerationRuns.
+     * @param {GenerationRunDeleteManyArgs} args - Arguments to filter GenerationRuns to delete.
+     * @example
+     * // Delete a few GenerationRuns
+     * const { count } = await prisma.generationRun.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GenerationRunDeleteManyArgs>(args?: SelectSubset<T, GenerationRunDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GenerationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GenerationRuns
+     * const generationRun = await prisma.generationRun.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GenerationRunUpdateManyArgs>(args: SelectSubset<T, GenerationRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one GenerationRun.
+     * @param {GenerationRunUpsertArgs} args - Arguments to update or create a GenerationRun.
+     * @example
+     * // Update or create a GenerationRun
+     * const generationRun = await prisma.generationRun.upsert({
+     *   create: {
+     *     // ... data to create a GenerationRun
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GenerationRun we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GenerationRunUpsertArgs>(args: SelectSubset<T, GenerationRunUpsertArgs<ExtArgs>>): Prisma__GenerationRunClient<$Result.GetResult<Prisma.$GenerationRunPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of GenerationRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunCountArgs} args - Arguments to filter GenerationRuns to count.
+     * @example
+     * // Count the number of GenerationRuns
+     * const count = await prisma.generationRun.count({
+     *   where: {
+     *     // ... the filter for the GenerationRuns we want to count
+     *   }
+     * })
+    **/
+    count<T extends GenerationRunCountArgs>(
+      args?: Subset<T, GenerationRunCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GenerationRunCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GenerationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GenerationRunAggregateArgs>(args: Subset<T, GenerationRunAggregateArgs>): Prisma.PrismaPromise<GetGenerationRunAggregateType<T>>
+
+    /**
+     * Group by GenerationRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GenerationRunGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GenerationRunGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GenerationRunGroupByArgs['orderBy'] }
+        : { orderBy?: GenerationRunGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GenerationRunGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGenerationRunGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GenerationRun model
+   */
+  readonly fields: GenerationRunFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GenerationRun.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GenerationRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GenerationRun model
+   */ 
+  interface GenerationRunFieldRefs {
+    readonly id: FieldRef<"GenerationRun", 'String'>
+    readonly projectId: FieldRef<"GenerationRun", 'String'>
+    readonly userId: FieldRef<"GenerationRun", 'String'>
+    readonly language: FieldRef<"GenerationRun", 'String'>
+    readonly mode: FieldRef<"GenerationRun", 'String'>
+    readonly options: FieldRef<"GenerationRun", 'Json'>
+    readonly status: FieldRef<"GenerationRun", 'GenerationStatus'>
+    readonly specHash: FieldRef<"GenerationRun", 'String'>
+    readonly errorMessage: FieldRef<"GenerationRun", 'String'>
+    readonly createdAt: FieldRef<"GenerationRun", 'DateTime'>
+    readonly completedAt: FieldRef<"GenerationRun", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GenerationRun findUnique
+   */
+  export type GenerationRunFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which GenerationRun to fetch.
+     */
+    where: GenerationRunWhereUniqueInput
+  }
+
+  /**
+   * GenerationRun findUniqueOrThrow
+   */
+  export type GenerationRunFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which GenerationRun to fetch.
+     */
+    where: GenerationRunWhereUniqueInput
+  }
+
+  /**
+   * GenerationRun findFirst
+   */
+  export type GenerationRunFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which GenerationRun to fetch.
+     */
+    where?: GenerationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GenerationRuns to fetch.
+     */
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GenerationRuns.
+     */
+    cursor?: GenerationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GenerationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GenerationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GenerationRuns.
+     */
+    distinct?: GenerationRunScalarFieldEnum | GenerationRunScalarFieldEnum[]
+  }
+
+  /**
+   * GenerationRun findFirstOrThrow
+   */
+  export type GenerationRunFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which GenerationRun to fetch.
+     */
+    where?: GenerationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GenerationRuns to fetch.
+     */
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GenerationRuns.
+     */
+    cursor?: GenerationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GenerationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GenerationRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GenerationRuns.
+     */
+    distinct?: GenerationRunScalarFieldEnum | GenerationRunScalarFieldEnum[]
+  }
+
+  /**
+   * GenerationRun findMany
+   */
+  export type GenerationRunFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter, which GenerationRuns to fetch.
+     */
+    where?: GenerationRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GenerationRuns to fetch.
+     */
+    orderBy?: GenerationRunOrderByWithRelationInput | GenerationRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GenerationRuns.
+     */
+    cursor?: GenerationRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GenerationRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GenerationRuns.
+     */
+    skip?: number
+    distinct?: GenerationRunScalarFieldEnum | GenerationRunScalarFieldEnum[]
+  }
+
+  /**
+   * GenerationRun create
+   */
+  export type GenerationRunCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GenerationRun.
+     */
+    data: XOR<GenerationRunCreateInput, GenerationRunUncheckedCreateInput>
+  }
+
+  /**
+   * GenerationRun createMany
+   */
+  export type GenerationRunCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GenerationRuns.
+     */
+    data: GenerationRunCreateManyInput | GenerationRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GenerationRun createManyAndReturn
+   */
+  export type GenerationRunCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many GenerationRuns.
+     */
+    data: GenerationRunCreateManyInput | GenerationRunCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GenerationRun update
+   */
+  export type GenerationRunUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GenerationRun.
+     */
+    data: XOR<GenerationRunUpdateInput, GenerationRunUncheckedUpdateInput>
+    /**
+     * Choose, which GenerationRun to update.
+     */
+    where: GenerationRunWhereUniqueInput
+  }
+
+  /**
+   * GenerationRun updateMany
+   */
+  export type GenerationRunUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GenerationRuns.
+     */
+    data: XOR<GenerationRunUpdateManyMutationInput, GenerationRunUncheckedUpdateManyInput>
+    /**
+     * Filter which GenerationRuns to update
+     */
+    where?: GenerationRunWhereInput
+  }
+
+  /**
+   * GenerationRun upsert
+   */
+  export type GenerationRunUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GenerationRun to update in case it exists.
+     */
+    where: GenerationRunWhereUniqueInput
+    /**
+     * In case the GenerationRun found by the `where` argument doesn't exist, create a new GenerationRun with this data.
+     */
+    create: XOR<GenerationRunCreateInput, GenerationRunUncheckedCreateInput>
+    /**
+     * In case the GenerationRun was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GenerationRunUpdateInput, GenerationRunUncheckedUpdateInput>
+  }
+
+  /**
+   * GenerationRun delete
+   */
+  export type GenerationRunDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+    /**
+     * Filter which GenerationRun to delete.
+     */
+    where: GenerationRunWhereUniqueInput
+  }
+
+  /**
+   * GenerationRun deleteMany
+   */
+  export type GenerationRunDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GenerationRuns to delete
+     */
+    where?: GenerationRunWhereInput
+  }
+
+  /**
+   * GenerationRun without action
+   */
+  export type GenerationRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GenerationRun
+     */
+    select?: GenerationRunSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GenerationRunInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -42545,6 +43718,23 @@ export namespace Prisma {
   export type ImportScalarFieldEnum = (typeof ImportScalarFieldEnum)[keyof typeof ImportScalarFieldEnum]
 
 
+  export const GenerationRunScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    userId: 'userId',
+    language: 'language',
+    mode: 'mode',
+    options: 'options',
+    status: 'status',
+    specHash: 'specHash',
+    errorMessage: 'errorMessage',
+    createdAt: 'createdAt',
+    completedAt: 'completedAt'
+  };
+
+  export type GenerationRunScalarFieldEnum = (typeof GenerationRunScalarFieldEnum)[keyof typeof GenerationRunScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -42837,6 +44027,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'GenerationStatus'
+   */
+  export type EnumGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GenerationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'GenerationStatus[]'
+   */
+  export type ListEnumGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'GenerationStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -42879,6 +44083,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestListRelationFilter
     mrReviews?: MrReviewListRelationFilter
     mrComments?: MrCommentListRelationFilter
+    generationRuns?: GenerationRunListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -42904,6 +44109,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestOrderByRelationAggregateInput
     mrReviews?: MrReviewOrderByRelationAggregateInput
     mrComments?: MrCommentOrderByRelationAggregateInput
+    generationRuns?: GenerationRunOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -42932,6 +44138,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestListRelationFilter
     mrReviews?: MrReviewListRelationFilter
     mrComments?: MrCommentListRelationFilter
+    generationRuns?: GenerationRunListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -43476,6 +44683,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobListRelationFilter
     imports?: ImportListRelationFilter
     mergeRequests?: MergeRequestListRelationFilter
+    generationRuns?: GenerationRunListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -43506,6 +44714,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobOrderByRelationAggregateInput
     imports?: ImportOrderByRelationAggregateInput
     mergeRequests?: MergeRequestOrderByRelationAggregateInput
+    generationRuns?: GenerationRunOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -43540,6 +44749,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobListRelationFilter
     imports?: ImportListRelationFilter
     mergeRequests?: MergeRequestListRelationFilter
+    generationRuns?: GenerationRunListRelationFilter
   }, "id" | "orgId_slug">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -45543,6 +46753,94 @@ export namespace Prisma {
     report?: JsonNullableWithAggregatesFilter<"Import">
   }
 
+  export type GenerationRunWhereInput = {
+    AND?: GenerationRunWhereInput | GenerationRunWhereInput[]
+    OR?: GenerationRunWhereInput[]
+    NOT?: GenerationRunWhereInput | GenerationRunWhereInput[]
+    id?: StringFilter<"GenerationRun"> | string
+    projectId?: StringFilter<"GenerationRun"> | string
+    userId?: StringFilter<"GenerationRun"> | string
+    language?: StringFilter<"GenerationRun"> | string
+    mode?: StringFilter<"GenerationRun"> | string
+    options?: JsonFilter<"GenerationRun">
+    status?: EnumGenerationStatusFilter<"GenerationRun"> | $Enums.GenerationStatus
+    specHash?: StringNullableFilter<"GenerationRun"> | string | null
+    errorMessage?: StringNullableFilter<"GenerationRun"> | string | null
+    createdAt?: DateTimeFilter<"GenerationRun"> | Date | string
+    completedAt?: DateTimeNullableFilter<"GenerationRun"> | Date | string | null
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type GenerationRunOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    userId?: SortOrder
+    language?: SortOrder
+    mode?: SortOrder
+    options?: SortOrder
+    status?: SortOrder
+    specHash?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    project?: ProjectOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type GenerationRunWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GenerationRunWhereInput | GenerationRunWhereInput[]
+    OR?: GenerationRunWhereInput[]
+    NOT?: GenerationRunWhereInput | GenerationRunWhereInput[]
+    projectId?: StringFilter<"GenerationRun"> | string
+    userId?: StringFilter<"GenerationRun"> | string
+    language?: StringFilter<"GenerationRun"> | string
+    mode?: StringFilter<"GenerationRun"> | string
+    options?: JsonFilter<"GenerationRun">
+    status?: EnumGenerationStatusFilter<"GenerationRun"> | $Enums.GenerationStatus
+    specHash?: StringNullableFilter<"GenerationRun"> | string | null
+    errorMessage?: StringNullableFilter<"GenerationRun"> | string | null
+    createdAt?: DateTimeFilter<"GenerationRun"> | Date | string
+    completedAt?: DateTimeNullableFilter<"GenerationRun"> | Date | string | null
+    project?: XOR<ProjectRelationFilter, ProjectWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type GenerationRunOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    userId?: SortOrder
+    language?: SortOrder
+    mode?: SortOrder
+    options?: SortOrder
+    status?: SortOrder
+    specHash?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: GenerationRunCountOrderByAggregateInput
+    _max?: GenerationRunMaxOrderByAggregateInput
+    _min?: GenerationRunMinOrderByAggregateInput
+  }
+
+  export type GenerationRunScalarWhereWithAggregatesInput = {
+    AND?: GenerationRunScalarWhereWithAggregatesInput | GenerationRunScalarWhereWithAggregatesInput[]
+    OR?: GenerationRunScalarWhereWithAggregatesInput[]
+    NOT?: GenerationRunScalarWhereWithAggregatesInput | GenerationRunScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GenerationRun"> | string
+    projectId?: StringWithAggregatesFilter<"GenerationRun"> | string
+    userId?: StringWithAggregatesFilter<"GenerationRun"> | string
+    language?: StringWithAggregatesFilter<"GenerationRun"> | string
+    mode?: StringWithAggregatesFilter<"GenerationRun"> | string
+    options?: JsonWithAggregatesFilter<"GenerationRun">
+    status?: EnumGenerationStatusWithAggregatesFilter<"GenerationRun"> | $Enums.GenerationStatus
+    specHash?: StringNullableWithAggregatesFilter<"GenerationRun"> | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"GenerationRun"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"GenerationRun"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"GenerationRun"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -45566,6 +46864,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -45591,6 +46890,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -45616,6 +46916,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -45641,6 +46942,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -46199,6 +47501,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -46228,6 +47531,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -46257,6 +47561,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -46286,6 +47591,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -48361,6 +49667,102 @@ export namespace Prisma {
     report?: NullableJsonNullValueInput | InputJsonValue
   }
 
+  export type GenerationRunCreateInput = {
+    id?: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    project: ProjectCreateNestedOneWithoutGenerationRunsInput
+    user: UserCreateNestedOneWithoutGenerationRunsInput
+  }
+
+  export type GenerationRunUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    userId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type GenerationRunUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    project?: ProjectUpdateOneRequiredWithoutGenerationRunsNestedInput
+    user?: UserUpdateOneRequiredWithoutGenerationRunsNestedInput
+  }
+
+  export type GenerationRunUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type GenerationRunCreateManyInput = {
+    id?: string
+    projectId: string
+    userId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type GenerationRunUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type GenerationRunUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -48495,6 +49897,12 @@ export namespace Prisma {
     none?: MrCommentWhereInput
   }
 
+  export type GenerationRunListRelationFilter = {
+    every?: GenerationRunWhereInput
+    some?: GenerationRunWhereInput
+    none?: GenerationRunWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -48545,6 +49953,10 @@ export namespace Prisma {
   }
 
   export type MrCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GenerationRunOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -50462,6 +51874,63 @@ export namespace Prisma {
     _max?: NestedEnumImportStatusFilter<$PrismaModel>
   }
 
+  export type EnumGenerationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.GenerationStatus | EnumGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenerationStatusFilter<$PrismaModel> | $Enums.GenerationStatus
+  }
+
+  export type GenerationRunCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    userId?: SortOrder
+    language?: SortOrder
+    mode?: SortOrder
+    options?: SortOrder
+    status?: SortOrder
+    specHash?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type GenerationRunMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    userId?: SortOrder
+    language?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    specHash?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type GenerationRunMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    userId?: SortOrder
+    language?: SortOrder
+    mode?: SortOrder
+    status?: SortOrder
+    specHash?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type EnumGenerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GenerationStatus | EnumGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.GenerationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenerationStatusFilter<$PrismaModel>
+    _max?: NestedEnumGenerationStatusFilter<$PrismaModel>
+  }
+
   export type MembershipCreateNestedManyWithoutUserInput = {
     create?: XOR<MembershipCreateWithoutUserInput, MembershipUncheckedCreateWithoutUserInput> | MembershipCreateWithoutUserInput[] | MembershipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
@@ -50559,6 +52028,13 @@ export namespace Prisma {
     connect?: MrCommentWhereUniqueInput | MrCommentWhereUniqueInput[]
   }
 
+  export type GenerationRunCreateNestedManyWithoutUserInput = {
+    create?: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput> | GenerationRunCreateWithoutUserInput[] | GenerationRunUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutUserInput | GenerationRunCreateOrConnectWithoutUserInput[]
+    createMany?: GenerationRunCreateManyUserInputEnvelope
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+  }
+
   export type MembershipUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<MembershipCreateWithoutUserInput, MembershipUncheckedCreateWithoutUserInput> | MembershipCreateWithoutUserInput[] | MembershipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
@@ -50654,6 +52130,13 @@ export namespace Prisma {
     connectOrCreate?: MrCommentCreateOrConnectWithoutAuthorInput | MrCommentCreateOrConnectWithoutAuthorInput[]
     createMany?: MrCommentCreateManyAuthorInputEnvelope
     connect?: MrCommentWhereUniqueInput | MrCommentWhereUniqueInput[]
+  }
+
+  export type GenerationRunUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput> | GenerationRunCreateWithoutUserInput[] | GenerationRunUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutUserInput | GenerationRunCreateOrConnectWithoutUserInput[]
+    createMany?: GenerationRunCreateManyUserInputEnvelope
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -50868,6 +52351,20 @@ export namespace Prisma {
     deleteMany?: MrCommentScalarWhereInput | MrCommentScalarWhereInput[]
   }
 
+  export type GenerationRunUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput> | GenerationRunCreateWithoutUserInput[] | GenerationRunUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutUserInput | GenerationRunCreateOrConnectWithoutUserInput[]
+    upsert?: GenerationRunUpsertWithWhereUniqueWithoutUserInput | GenerationRunUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GenerationRunCreateManyUserInputEnvelope
+    set?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    disconnect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    delete?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    update?: GenerationRunUpdateWithWhereUniqueWithoutUserInput | GenerationRunUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GenerationRunUpdateManyWithWhereWithoutUserInput | GenerationRunUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
+  }
+
   export type MembershipUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<MembershipCreateWithoutUserInput, MembershipUncheckedCreateWithoutUserInput> | MembershipCreateWithoutUserInput[] | MembershipUncheckedCreateWithoutUserInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
@@ -51058,6 +52555,20 @@ export namespace Prisma {
     update?: MrCommentUpdateWithWhereUniqueWithoutAuthorInput | MrCommentUpdateWithWhereUniqueWithoutAuthorInput[]
     updateMany?: MrCommentUpdateManyWithWhereWithoutAuthorInput | MrCommentUpdateManyWithWhereWithoutAuthorInput[]
     deleteMany?: MrCommentScalarWhereInput | MrCommentScalarWhereInput[]
+  }
+
+  export type GenerationRunUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput> | GenerationRunCreateWithoutUserInput[] | GenerationRunUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutUserInput | GenerationRunCreateOrConnectWithoutUserInput[]
+    upsert?: GenerationRunUpsertWithWhereUniqueWithoutUserInput | GenerationRunUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: GenerationRunCreateManyUserInputEnvelope
+    set?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    disconnect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    delete?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    update?: GenerationRunUpdateWithWhereUniqueWithoutUserInput | GenerationRunUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: GenerationRunUpdateManyWithWhereWithoutUserInput | GenerationRunUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -51571,6 +53082,13 @@ export namespace Prisma {
     connect?: MergeRequestWhereUniqueInput | MergeRequestWhereUniqueInput[]
   }
 
+  export type GenerationRunCreateNestedManyWithoutProjectInput = {
+    create?: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput> | GenerationRunCreateWithoutProjectInput[] | GenerationRunUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutProjectInput | GenerationRunCreateOrConnectWithoutProjectInput[]
+    createMany?: GenerationRunCreateManyProjectInputEnvelope
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+  }
+
   export type BranchUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<BranchCreateWithoutProjectInput, BranchUncheckedCreateWithoutProjectInput> | BranchCreateWithoutProjectInput[] | BranchUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: BranchCreateOrConnectWithoutProjectInput | BranchCreateOrConnectWithoutProjectInput[]
@@ -51660,6 +53178,13 @@ export namespace Prisma {
     connectOrCreate?: MergeRequestCreateOrConnectWithoutProjectInput | MergeRequestCreateOrConnectWithoutProjectInput[]
     createMany?: MergeRequestCreateManyProjectInputEnvelope
     connect?: MergeRequestWhereUniqueInput | MergeRequestWhereUniqueInput[]
+  }
+
+  export type GenerationRunUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput> | GenerationRunCreateWithoutProjectInput[] | GenerationRunUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutProjectInput | GenerationRunCreateOrConnectWithoutProjectInput[]
+    createMany?: GenerationRunCreateManyProjectInputEnvelope
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
   }
 
   export type EnumVisibilityFieldUpdateOperationsInput = {
@@ -51856,6 +53381,20 @@ export namespace Prisma {
     deleteMany?: MergeRequestScalarWhereInput | MergeRequestScalarWhereInput[]
   }
 
+  export type GenerationRunUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput> | GenerationRunCreateWithoutProjectInput[] | GenerationRunUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutProjectInput | GenerationRunCreateOrConnectWithoutProjectInput[]
+    upsert?: GenerationRunUpsertWithWhereUniqueWithoutProjectInput | GenerationRunUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: GenerationRunCreateManyProjectInputEnvelope
+    set?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    disconnect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    delete?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    update?: GenerationRunUpdateWithWhereUniqueWithoutProjectInput | GenerationRunUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: GenerationRunUpdateManyWithWhereWithoutProjectInput | GenerationRunUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
+  }
+
   export type BranchUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<BranchCreateWithoutProjectInput, BranchUncheckedCreateWithoutProjectInput> | BranchCreateWithoutProjectInput[] | BranchUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: BranchCreateOrConnectWithoutProjectInput | BranchCreateOrConnectWithoutProjectInput[]
@@ -52036,6 +53575,20 @@ export namespace Prisma {
     update?: MergeRequestUpdateWithWhereUniqueWithoutProjectInput | MergeRequestUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: MergeRequestUpdateManyWithWhereWithoutProjectInput | MergeRequestUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: MergeRequestScalarWhereInput | MergeRequestScalarWhereInput[]
+  }
+
+  export type GenerationRunUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput> | GenerationRunCreateWithoutProjectInput[] | GenerationRunUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: GenerationRunCreateOrConnectWithoutProjectInput | GenerationRunCreateOrConnectWithoutProjectInput[]
+    upsert?: GenerationRunUpsertWithWhereUniqueWithoutProjectInput | GenerationRunUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: GenerationRunCreateManyProjectInputEnvelope
+    set?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    disconnect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    delete?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    connect?: GenerationRunWhereUniqueInput | GenerationRunWhereUniqueInput[]
+    update?: GenerationRunUpdateWithWhereUniqueWithoutProjectInput | GenerationRunUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: GenerationRunUpdateManyWithWhereWithoutProjectInput | GenerationRunUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
   }
 
   export type ProjectCreateNestedOneWithoutBranchesInput = {
@@ -53663,6 +55216,38 @@ export namespace Prisma {
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutImportsInput, ProjectUpdateWithoutImportsInput>, ProjectUncheckedUpdateWithoutImportsInput>
   }
 
+  export type ProjectCreateNestedOneWithoutGenerationRunsInput = {
+    create?: XOR<ProjectCreateWithoutGenerationRunsInput, ProjectUncheckedCreateWithoutGenerationRunsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutGenerationRunsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutGenerationRunsInput = {
+    create?: XOR<UserCreateWithoutGenerationRunsInput, UserUncheckedCreateWithoutGenerationRunsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGenerationRunsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumGenerationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.GenerationStatus
+  }
+
+  export type ProjectUpdateOneRequiredWithoutGenerationRunsNestedInput = {
+    create?: XOR<ProjectCreateWithoutGenerationRunsInput, ProjectUncheckedCreateWithoutGenerationRunsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutGenerationRunsInput
+    upsert?: ProjectUpsertWithoutGenerationRunsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutGenerationRunsInput, ProjectUpdateWithoutGenerationRunsInput>, ProjectUncheckedUpdateWithoutGenerationRunsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutGenerationRunsNestedInput = {
+    create?: XOR<UserCreateWithoutGenerationRunsInput, UserUncheckedCreateWithoutGenerationRunsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGenerationRunsInput
+    upsert?: UserUpsertWithoutGenerationRunsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGenerationRunsInput, UserUpdateWithoutGenerationRunsInput>, UserUncheckedUpdateWithoutGenerationRunsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -54129,6 +55714,23 @@ export namespace Prisma {
     _max?: NestedEnumImportStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumGenerationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.GenerationStatus | EnumGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenerationStatusFilter<$PrismaModel> | $Enums.GenerationStatus
+  }
+
+  export type NestedEnumGenerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.GenerationStatus | EnumGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.GenerationStatus[] | ListEnumGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.GenerationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenerationStatusFilter<$PrismaModel>
+    _max?: NestedEnumGenerationStatusFilter<$PrismaModel>
+  }
+
   export type MembershipCreateWithoutUserInput = {
     id?: string
     role: $Enums.Role
@@ -54582,6 +56184,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GenerationRunCreateWithoutUserInput = {
+    id?: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    project: ProjectCreateNestedOneWithoutGenerationRunsInput
+  }
+
+  export type GenerationRunUncheckedCreateWithoutUserInput = {
+    id?: string
+    projectId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type GenerationRunCreateOrConnectWithoutUserInput = {
+    where: GenerationRunWhereUniqueInput
+    create: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput>
+  }
+
+  export type GenerationRunCreateManyUserInputEnvelope = {
+    data: GenerationRunCreateManyUserInput | GenerationRunCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MembershipUpsertWithWhereUniqueWithoutUserInput = {
     where: MembershipWhereUniqueInput
     update: XOR<MembershipUpdateWithoutUserInput, MembershipUncheckedUpdateWithoutUserInput>
@@ -54986,6 +56624,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"MrComment"> | Date | string
   }
 
+  export type GenerationRunUpsertWithWhereUniqueWithoutUserInput = {
+    where: GenerationRunWhereUniqueInput
+    update: XOR<GenerationRunUpdateWithoutUserInput, GenerationRunUncheckedUpdateWithoutUserInput>
+    create: XOR<GenerationRunCreateWithoutUserInput, GenerationRunUncheckedCreateWithoutUserInput>
+  }
+
+  export type GenerationRunUpdateWithWhereUniqueWithoutUserInput = {
+    where: GenerationRunWhereUniqueInput
+    data: XOR<GenerationRunUpdateWithoutUserInput, GenerationRunUncheckedUpdateWithoutUserInput>
+  }
+
+  export type GenerationRunUpdateManyWithWhereWithoutUserInput = {
+    where: GenerationRunScalarWhereInput
+    data: XOR<GenerationRunUpdateManyMutationInput, GenerationRunUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type GenerationRunScalarWhereInput = {
+    AND?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
+    OR?: GenerationRunScalarWhereInput[]
+    NOT?: GenerationRunScalarWhereInput | GenerationRunScalarWhereInput[]
+    id?: StringFilter<"GenerationRun"> | string
+    projectId?: StringFilter<"GenerationRun"> | string
+    userId?: StringFilter<"GenerationRun"> | string
+    language?: StringFilter<"GenerationRun"> | string
+    mode?: StringFilter<"GenerationRun"> | string
+    options?: JsonFilter<"GenerationRun">
+    status?: EnumGenerationStatusFilter<"GenerationRun"> | $Enums.GenerationStatus
+    specHash?: StringNullableFilter<"GenerationRun"> | string | null
+    errorMessage?: StringNullableFilter<"GenerationRun"> | string | null
+    createdAt?: DateTimeFilter<"GenerationRun"> | Date | string
+    completedAt?: DateTimeNullableFilter<"GenerationRun"> | Date | string | null
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     email: string
@@ -55008,6 +56679,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -55032,6 +56704,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -55072,6 +56745,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -55096,6 +56770,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMfaInput = {
@@ -55120,6 +56795,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMfaInput = {
@@ -55144,6 +56820,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMfaInput = {
@@ -55184,6 +56861,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMfaInput = {
@@ -55208,6 +56886,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutRefreshTokensInput = {
@@ -55232,6 +56911,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -55256,6 +56936,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -55296,6 +56977,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -55320,6 +57002,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MembershipCreateWithoutOrgInput = {
@@ -55370,6 +57053,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutOrgInput = {
@@ -55398,6 +57082,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutOrgInput = {
@@ -55701,6 +57386,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -55725,6 +57411,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -55798,6 +57485,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -55822,6 +57510,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrganizationUpsertWithoutMembershipsInput = {
@@ -56540,6 +58229,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GenerationRunCreateWithoutProjectInput = {
+    id?: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutGenerationRunsInput
+  }
+
+  export type GenerationRunUncheckedCreateWithoutProjectInput = {
+    id?: string
+    userId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type GenerationRunCreateOrConnectWithoutProjectInput = {
+    where: GenerationRunWhereUniqueInput
+    create: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput>
+  }
+
+  export type GenerationRunCreateManyProjectInputEnvelope = {
+    data: GenerationRunCreateManyProjectInput | GenerationRunCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganizationUpsertWithoutProjectsInput = {
     update: XOR<OrganizationUpdateWithoutProjectsInput, OrganizationUncheckedUpdateWithoutProjectsInput>
     create: XOR<OrganizationCreateWithoutProjectsInput, OrganizationUncheckedCreateWithoutProjectsInput>
@@ -56906,6 +58631,22 @@ export namespace Prisma {
     data: XOR<MergeRequestUpdateManyMutationInput, MergeRequestUncheckedUpdateManyWithoutProjectInput>
   }
 
+  export type GenerationRunUpsertWithWhereUniqueWithoutProjectInput = {
+    where: GenerationRunWhereUniqueInput
+    update: XOR<GenerationRunUpdateWithoutProjectInput, GenerationRunUncheckedUpdateWithoutProjectInput>
+    create: XOR<GenerationRunCreateWithoutProjectInput, GenerationRunUncheckedCreateWithoutProjectInput>
+  }
+
+  export type GenerationRunUpdateWithWhereUniqueWithoutProjectInput = {
+    where: GenerationRunWhereUniqueInput
+    data: XOR<GenerationRunUpdateWithoutProjectInput, GenerationRunUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type GenerationRunUpdateManyWithWhereWithoutProjectInput = {
+    where: GenerationRunScalarWhereInput
+    data: XOR<GenerationRunUpdateManyMutationInput, GenerationRunUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type ProjectCreateWithoutBranchesInput = {
     id?: string
     name: string
@@ -56932,6 +58673,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutBranchesInput = {
@@ -56960,6 +58702,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutBranchesInput = {
@@ -57196,6 +58939,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedBranchesInput = {
@@ -57220,6 +58964,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedBranchesInput = {
@@ -57330,6 +59075,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutBranchesInput = {
@@ -57358,6 +59104,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type BranchUpsertWithoutChildrenInput = {
@@ -57560,6 +59307,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedBranchesInput = {
@@ -57584,6 +59332,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DocPortalUpsertWithWhereUniqueWithoutBranchInput = {
@@ -57745,6 +59494,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommitsInput = {
@@ -57769,6 +59519,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommitsInput = {
@@ -57924,6 +59675,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommitsInput = {
@@ -57948,6 +59700,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SpecSnapshotUpsertWithoutCommitsInput = {
@@ -58406,6 +60159,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutEnvironmentsInput = {
@@ -58434,6 +60188,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutEnvironmentsInput = {
@@ -58478,6 +60233,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutEnvironmentsInput = {
@@ -58506,6 +60262,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateWithoutSecretsInput = {
@@ -58534,6 +60291,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutSecretsInput = {
@@ -58562,6 +60320,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutSecretsInput = {
@@ -58591,6 +60350,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSecretsInput = {
@@ -58615,6 +60375,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSecretsInput = {
@@ -58659,6 +60420,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutSecretsInput = {
@@ -58687,6 +60449,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutSecretsInput = {
@@ -58722,6 +60485,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSecretsInput = {
@@ -58746,6 +60510,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutMockRulesInput = {
@@ -58774,6 +60539,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMockRulesInput = {
@@ -58802,6 +60568,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMockRulesInput = {
@@ -58921,6 +60688,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMockRulesInput = {
@@ -58949,6 +60717,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type EndpointUpsertWithoutMockRulesInput = {
@@ -59044,6 +60813,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMockRunsInput = {
@@ -59072,6 +60842,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMockRunsInput = {
@@ -59147,6 +60918,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMockRunsInput = {
@@ -59175,6 +60947,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type MockRuleUpsertWithoutMockRunsInput = {
@@ -59240,6 +61013,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTestSuitesInput = {
@@ -59268,6 +61042,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTestSuitesInput = {
@@ -59372,6 +61147,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTestSuitesInput = {
@@ -59400,6 +61176,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TestScenarioUpsertWithWhereUniqueWithoutSuiteInput = {
@@ -59657,6 +61434,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTestRunsInput = {
@@ -59685,6 +61463,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTestRunsInput = {
@@ -59748,6 +61527,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTestRunsInput = {
@@ -59776,6 +61556,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TestSuiteUpsertWithoutTestRunsInput = {
@@ -59829,6 +61610,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutLoadTestRunsInput = {
@@ -59857,6 +61639,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutLoadTestRunsInput = {
@@ -59922,6 +61705,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutLoadTestRunsInput = {
@@ -59950,6 +61734,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TestScenarioUpsertWithoutLoadTestRunsInput = {
@@ -60005,6 +61790,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutDocPortalsInput = {
@@ -60033,6 +61819,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutDocPortalsInput = {
@@ -60101,6 +61888,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDocPortalsInput = {
@@ -60125,6 +61913,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDocPortalsInput = {
@@ -60193,6 +61982,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutDocPortalsInput = {
@@ -60221,6 +62011,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type BranchUpsertWithoutDocPortalsInput = {
@@ -60301,6 +62092,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocPortalsInput = {
@@ -60325,6 +62117,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type DocVersionUpsertWithWhereUniqueWithoutPortalInput = {
@@ -60533,6 +62326,7 @@ export namespace Prisma {
     mockRuns?: MockRunCreateNestedManyWithoutProjectInput
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMergeRequestsInput = {
@@ -60561,6 +62355,7 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedCreateNestedManyWithoutProjectInput
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMergeRequestsInput = {
@@ -60590,6 +62385,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMergeRequestsInput = {
@@ -60614,6 +62410,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMergeRequestsInput = {
@@ -60643,6 +62440,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestCreateNestedManyWithoutAuthorInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMergedMrsInput = {
@@ -60667,6 +62465,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutAuthorInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMergedMrsInput = {
@@ -60761,6 +62560,7 @@ export namespace Prisma {
     mockRuns?: MockRunUpdateManyWithoutProjectNestedInput
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMergeRequestsInput = {
@@ -60789,6 +62589,7 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedUpdateManyWithoutProjectNestedInput
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type UserUpsertWithoutMergeRequestsInput = {
@@ -60824,6 +62625,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMergeRequestsInput = {
@@ -60848,6 +62650,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutMergedMrsInput = {
@@ -60883,6 +62686,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUpdateManyWithoutAuthorNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMergedMrsInput = {
@@ -60907,6 +62711,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutAuthorNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MrReviewUpsertWithWhereUniqueWithoutMrInput = {
@@ -61000,6 +62805,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestCreateNestedManyWithoutAuthorInput
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMrReviewsInput = {
@@ -61024,6 +62830,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutAuthorInput
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMrReviewsInput = {
@@ -61107,6 +62914,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUpdateManyWithoutAuthorNestedInput
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMrReviewsInput = {
@@ -61131,6 +62939,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutAuthorNestedInput
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MergeRequestCreateWithoutCommentsInput = {
@@ -61192,6 +63001,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestCreateNestedManyWithoutAuthorInput
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMrCommentsInput = {
@@ -61216,6 +63026,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutAuthorInput
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMrCommentsInput = {
@@ -61299,6 +63110,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUpdateManyWithoutAuthorNestedInput
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMrCommentsInput = {
@@ -61323,6 +63135,7 @@ export namespace Prisma {
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutAuthorNestedInput
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectCreateWithoutScheduledJobsInput = {
@@ -61351,6 +63164,7 @@ export namespace Prisma {
     mockRuns?: MockRunCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutScheduledJobsInput = {
@@ -61379,6 +63193,7 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutScheduledJobsInput = {
@@ -61423,6 +63238,7 @@ export namespace Prisma {
     mockRuns?: MockRunUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutScheduledJobsInput = {
@@ -61451,6 +63267,7 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type OrganizationCreateWithoutAgentTokensInput = {
@@ -61508,6 +63325,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAgentTokensInput = {
@@ -61532,6 +63350,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAgentTokensInput = {
@@ -61677,6 +63496,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentTokensInput = {
@@ -61701,6 +63521,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AgentActivityUpsertWithWhereUniqueWithoutTokenInput = {
@@ -61884,6 +63705,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     imports?: ImportCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutPluginsInput = {
@@ -61912,6 +63734,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutPluginsInput = {
@@ -61979,6 +63802,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutPluginsInput = {
@@ -62007,6 +63831,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type PluginUpsertWithoutProjectsInput = {
@@ -62093,6 +63918,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewCreateNestedManyWithoutUserInput
     mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -62117,6 +63943,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
     mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
     mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -62229,6 +64056,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -62253,6 +64081,7 @@ export namespace Prisma {
     mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
     mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
     mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AgentTokenUpsertWithoutAuditLogsInput = {
@@ -62320,6 +64149,7 @@ export namespace Prisma {
     mockRuns?: MockRunCreateNestedManyWithoutProjectInput
     scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutImportsInput = {
@@ -62348,6 +64178,7 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedCreateNestedManyWithoutProjectInput
     scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
     mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+    generationRuns?: GenerationRunUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutImportsInput = {
@@ -62392,6 +64223,7 @@ export namespace Prisma {
     mockRuns?: MockRunUpdateManyWithoutProjectNestedInput
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutImportsInput = {
@@ -62420,6 +64252,255 @@ export namespace Prisma {
     mockRuns?: MockRunUncheckedUpdateManyWithoutProjectNestedInput
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectCreateWithoutGenerationRunsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    icon?: string | null
+    defaultBranchId?: string | null
+    visibility?: $Enums.Visibility
+    gitRemoteUrl?: string | null
+    gitAuthRef?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    org: OrganizationCreateNestedOneWithoutProjectsInput
+    branches?: BranchCreateNestedManyWithoutProjectInput
+    environments?: EnvironmentCreateNestedManyWithoutProjectInput
+    mockRules?: MockRuleCreateNestedManyWithoutProjectInput
+    testSuites?: TestSuiteCreateNestedManyWithoutProjectInput
+    docPortals?: DocPortalCreateNestedManyWithoutProjectInput
+    plugins?: ProjectPluginCreateNestedManyWithoutProjectInput
+    secrets?: SecretCreateNestedManyWithoutProjectInput
+    testRuns?: TestRunCreateNestedManyWithoutProjectInput
+    loadTestRuns?: LoadTestRunCreateNestedManyWithoutProjectInput
+    mockRuns?: MockRunCreateNestedManyWithoutProjectInput
+    scheduledJobs?: ScheduledJobCreateNestedManyWithoutProjectInput
+    imports?: ImportCreateNestedManyWithoutProjectInput
+    mergeRequests?: MergeRequestCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutGenerationRunsInput = {
+    id?: string
+    orgId: string
+    name: string
+    slug: string
+    description?: string | null
+    icon?: string | null
+    defaultBranchId?: string | null
+    visibility?: $Enums.Visibility
+    gitRemoteUrl?: string | null
+    gitAuthRef?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    branches?: BranchUncheckedCreateNestedManyWithoutProjectInput
+    environments?: EnvironmentUncheckedCreateNestedManyWithoutProjectInput
+    mockRules?: MockRuleUncheckedCreateNestedManyWithoutProjectInput
+    testSuites?: TestSuiteUncheckedCreateNestedManyWithoutProjectInput
+    docPortals?: DocPortalUncheckedCreateNestedManyWithoutProjectInput
+    plugins?: ProjectPluginUncheckedCreateNestedManyWithoutProjectInput
+    secrets?: SecretUncheckedCreateNestedManyWithoutProjectInput
+    testRuns?: TestRunUncheckedCreateNestedManyWithoutProjectInput
+    loadTestRuns?: LoadTestRunUncheckedCreateNestedManyWithoutProjectInput
+    mockRuns?: MockRunUncheckedCreateNestedManyWithoutProjectInput
+    scheduledJobs?: ScheduledJobUncheckedCreateNestedManyWithoutProjectInput
+    imports?: ImportUncheckedCreateNestedManyWithoutProjectInput
+    mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutGenerationRunsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutGenerationRunsInput, ProjectUncheckedCreateWithoutGenerationRunsInput>
+  }
+
+  export type UserCreateWithoutGenerationRunsInput = {
+    id?: string
+    email: string
+    name: string
+    avatarUrl?: string | null
+    passwordHash?: string | null
+    emailVerified?: boolean
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    mfa?: MfaSecretCreateNestedOneWithoutUserInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    agentTokens?: AgentTokenCreateNestedManyWithoutCreatorInput
+    createdBranches?: BranchCreateNestedManyWithoutCreatorInput
+    commits?: CommitCreateNestedManyWithoutAuthorInput
+    docPortals?: DocPortalCreateNestedManyWithoutPublishedByInput
+    secrets?: SecretCreateNestedManyWithoutCreatorInput
+    auditLogs?: AuditLogCreateNestedManyWithoutActorInput
+    mergeRequests?: MergeRequestCreateNestedManyWithoutAuthorInput
+    mergedMrs?: MergeRequestCreateNestedManyWithoutMergerInput
+    mrReviews?: MrReviewCreateNestedManyWithoutUserInput
+    mrComments?: MrCommentCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserUncheckedCreateWithoutGenerationRunsInput = {
+    id?: string
+    email: string
+    name: string
+    avatarUrl?: string | null
+    passwordHash?: string | null
+    emailVerified?: boolean
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    mfa?: MfaSecretUncheckedCreateNestedOneWithoutUserInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    agentTokens?: AgentTokenUncheckedCreateNestedManyWithoutCreatorInput
+    createdBranches?: BranchUncheckedCreateNestedManyWithoutCreatorInput
+    commits?: CommitUncheckedCreateNestedManyWithoutAuthorInput
+    docPortals?: DocPortalUncheckedCreateNestedManyWithoutPublishedByInput
+    secrets?: SecretUncheckedCreateNestedManyWithoutCreatorInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    mergeRequests?: MergeRequestUncheckedCreateNestedManyWithoutAuthorInput
+    mergedMrs?: MergeRequestUncheckedCreateNestedManyWithoutMergerInput
+    mrReviews?: MrReviewUncheckedCreateNestedManyWithoutUserInput
+    mrComments?: MrCommentUncheckedCreateNestedManyWithoutAuthorInput
+  }
+
+  export type UserCreateOrConnectWithoutGenerationRunsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGenerationRunsInput, UserUncheckedCreateWithoutGenerationRunsInput>
+  }
+
+  export type ProjectUpsertWithoutGenerationRunsInput = {
+    update: XOR<ProjectUpdateWithoutGenerationRunsInput, ProjectUncheckedUpdateWithoutGenerationRunsInput>
+    create: XOR<ProjectCreateWithoutGenerationRunsInput, ProjectUncheckedCreateWithoutGenerationRunsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutGenerationRunsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutGenerationRunsInput, ProjectUncheckedUpdateWithoutGenerationRunsInput>
+  }
+
+  export type ProjectUpdateWithoutGenerationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultBranchId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    gitRemoteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitAuthRef?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    org?: OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+    branches?: BranchUpdateManyWithoutProjectNestedInput
+    environments?: EnvironmentUpdateManyWithoutProjectNestedInput
+    mockRules?: MockRuleUpdateManyWithoutProjectNestedInput
+    testSuites?: TestSuiteUpdateManyWithoutProjectNestedInput
+    docPortals?: DocPortalUpdateManyWithoutProjectNestedInput
+    plugins?: ProjectPluginUpdateManyWithoutProjectNestedInput
+    secrets?: SecretUpdateManyWithoutProjectNestedInput
+    testRuns?: TestRunUpdateManyWithoutProjectNestedInput
+    loadTestRuns?: LoadTestRunUpdateManyWithoutProjectNestedInput
+    mockRuns?: MockRunUpdateManyWithoutProjectNestedInput
+    scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
+    imports?: ImportUpdateManyWithoutProjectNestedInput
+    mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutGenerationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    defaultBranchId?: NullableStringFieldUpdateOperationsInput | string | null
+    visibility?: EnumVisibilityFieldUpdateOperationsInput | $Enums.Visibility
+    gitRemoteUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitAuthRef?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    branches?: BranchUncheckedUpdateManyWithoutProjectNestedInput
+    environments?: EnvironmentUncheckedUpdateManyWithoutProjectNestedInput
+    mockRules?: MockRuleUncheckedUpdateManyWithoutProjectNestedInput
+    testSuites?: TestSuiteUncheckedUpdateManyWithoutProjectNestedInput
+    docPortals?: DocPortalUncheckedUpdateManyWithoutProjectNestedInput
+    plugins?: ProjectPluginUncheckedUpdateManyWithoutProjectNestedInput
+    secrets?: SecretUncheckedUpdateManyWithoutProjectNestedInput
+    testRuns?: TestRunUncheckedUpdateManyWithoutProjectNestedInput
+    loadTestRuns?: LoadTestRunUncheckedUpdateManyWithoutProjectNestedInput
+    mockRuns?: MockRunUncheckedUpdateManyWithoutProjectNestedInput
+    scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
+    imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
+    mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type UserUpsertWithoutGenerationRunsInput = {
+    update: XOR<UserUpdateWithoutGenerationRunsInput, UserUncheckedUpdateWithoutGenerationRunsInput>
+    create: XOR<UserCreateWithoutGenerationRunsInput, UserUncheckedCreateWithoutGenerationRunsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGenerationRunsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGenerationRunsInput, UserUncheckedUpdateWithoutGenerationRunsInput>
+  }
+
+  export type UserUpdateWithoutGenerationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    mfa?: MfaSecretUpdateOneWithoutUserNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    agentTokens?: AgentTokenUpdateManyWithoutCreatorNestedInput
+    createdBranches?: BranchUpdateManyWithoutCreatorNestedInput
+    commits?: CommitUpdateManyWithoutAuthorNestedInput
+    docPortals?: DocPortalUpdateManyWithoutPublishedByNestedInput
+    secrets?: SecretUpdateManyWithoutCreatorNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutActorNestedInput
+    mergeRequests?: MergeRequestUpdateManyWithoutAuthorNestedInput
+    mergedMrs?: MergeRequestUpdateManyWithoutMergerNestedInput
+    mrReviews?: MrReviewUpdateManyWithoutUserNestedInput
+    mrComments?: MrCommentUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGenerationRunsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    mfa?: MfaSecretUncheckedUpdateOneWithoutUserNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    agentTokens?: AgentTokenUncheckedUpdateManyWithoutCreatorNestedInput
+    createdBranches?: BranchUncheckedUpdateManyWithoutCreatorNestedInput
+    commits?: CommitUncheckedUpdateManyWithoutAuthorNestedInput
+    docPortals?: DocPortalUncheckedUpdateManyWithoutPublishedByNestedInput
+    secrets?: SecretUncheckedUpdateManyWithoutCreatorNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    mergeRequests?: MergeRequestUncheckedUpdateManyWithoutAuthorNestedInput
+    mergedMrs?: MergeRequestUncheckedUpdateManyWithoutMergerNestedInput
+    mrReviews?: MrReviewUncheckedUpdateManyWithoutUserNestedInput
+    mrComments?: MrCommentUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type MembershipCreateManyUserInput = {
@@ -62557,6 +64638,19 @@ export namespace Prisma {
     body: string
     path?: string | null
     createdAt?: Date | string
+  }
+
+  export type GenerationRunCreateManyUserInput = {
+    id?: string
+    projectId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
   }
 
   export type MembershipUpdateWithoutUserInput = {
@@ -63000,6 +65094,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GenerationRunUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    project?: ProjectUpdateOneRequiredWithoutGenerationRunsNestedInput
+  }
+
+  export type GenerationRunUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type GenerationRunUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type MembershipCreateManyOrgInput = {
     id?: string
     userId: string
@@ -63107,6 +65240,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUpdateManyWithoutProjectNestedInput
     imports?: ImportUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutOrgInput = {
@@ -63135,6 +65269,7 @@ export namespace Prisma {
     scheduledJobs?: ScheduledJobUncheckedUpdateManyWithoutProjectNestedInput
     imports?: ImportUncheckedUpdateManyWithoutProjectNestedInput
     mergeRequests?: MergeRequestUncheckedUpdateManyWithoutProjectNestedInput
+    generationRuns?: GenerationRunUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutOrgInput = {
@@ -63429,6 +65564,19 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mergedAt?: Date | string | null
+  }
+
+  export type GenerationRunCreateManyProjectInput = {
+    id?: string
+    userId: string
+    language: string
+    mode: string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: $Enums.GenerationStatus
+    specHash?: string | null
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
   }
 
   export type BranchUpdateWithoutProjectInput = {
@@ -63848,6 +65996,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mergedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type GenerationRunUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutGenerationRunsNestedInput
+  }
+
+  export type GenerationRunUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type GenerationRunUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    mode?: StringFieldUpdateOperationsInput | string
+    options?: JsonNullValueInput | InputJsonValue
+    status?: EnumGenerationStatusFieldUpdateOperationsInput | $Enums.GenerationStatus
+    specHash?: NullableStringFieldUpdateOperationsInput | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type BranchCreateManyParentInput = {
@@ -64885,6 +67072,10 @@ export namespace Prisma {
      * @deprecated Use ImportDefaultArgs instead
      */
     export type ImportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ImportDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use GenerationRunDefaultArgs instead
+     */
+    export type GenerationRunArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = GenerationRunDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

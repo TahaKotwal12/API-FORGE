@@ -1,0 +1,4 @@
+{% for m in models -%}
+pub mod {{ m }};
+pub use {{ m }}::*;
+{% endfor %}

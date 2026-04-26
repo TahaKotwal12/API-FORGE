@@ -17,6 +17,7 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   SECRET_ENCRYPTION_KEY: z.string().optional(),
+  FORGE_SERVER_URL: z.string().default('http://127.0.0.1:7070'),
   YJS_PORT: z.coerce.number().default(4001),
 });
 
@@ -28,5 +29,8 @@ export const appConfig = registerAs('app', () => {
     console.error('Invalid environment variables:', parsed.error.flatten().fieldErrors);
     process.exit(1);
   }
-  return parsed.data;
+  return {
+    ...parsed.data,
+    forgeServerUrl: parsed.data.FORGE_SERVER_URL,
+  };
 });

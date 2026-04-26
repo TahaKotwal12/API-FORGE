@@ -1,0 +1,30 @@
+package {{ pkg }}
+
+import "net/http"
+
+// Client is the API client.
+type Client struct {
+	baseURL    string
+	httpClient *http.Client
+	headers    map[string]string
+}
+
+// New creates a new Client.
+func New(baseURL string, opts ...Option) *Client {
+	c := &Client{baseURL: baseURL, httpClient: &http.Client{}, headers: map[string]string{}}
+	for _, o := range opts { o(c) }
+	return c
+}
+
+// Option configures the Client.
+type Option func(*Client)
+
+// WithBearerToken sets the Authorization header.
+func WithBearerToken(token string) Option {
+	return func(c *Client) { c.headers["Authorization"] = "Bearer " + token }
+}
+
+// WithAPIKey sets the X-Api-Key header.
+func WithAPIKey(key string) Option {
+	return func(c *Client) { c.headers["X-Api-Key"] = key }
+}

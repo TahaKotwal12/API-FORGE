@@ -1,0 +1,33 @@
+from __future__ import annotations
+
+
+class ApiError(Exception):
+    def __init__(self, message: str, status: int, body: object | None = None, request_id: str | None = None) -> None:
+        super().__init__(message)
+        self.status = status
+        self.body = body
+        self.request_id = request_id
+
+
+class ValidationError(ApiError): pass
+class UnauthorizedError(ApiError): pass
+class ForbiddenError(ApiError): pass
+class NotFoundError(ApiError): pass
+class ConflictError(ApiError): pass
+class RateLimitError(ApiError):
+    def __init__(self, *args: object, retry_after: float | None = None, **kwargs: object) -> None:
+        super().__init__(*args, **kwargs)  # type: ignore[arg-type]
+        self.retry_after = retry_after
+class ServerError(ApiError): pass
+
+
+def raise_for_status(status: int, body: object, request_id: str | None = None) -> None:
+    msg = f"HTTP {status}"
+    if status == 400: raise ValidationError(msg, status, body, request_id)
+    if status == 401: raise UnauthorizedError(msg, status, body, request_id)
+    if status == 403: raise ForbiddenError(msg, status, body, request_id)
+    if status == 404: raise NotFoundError(msg, status, body, request_id)
+    if status == 409: raise ConflictError(msg, status, body, request_id)
+    if status == 429: raise RateLimitError(msg, status, body, request_id)
+    if status >= 500: raise ServerError(msg, status, body, request_id)
+    raise ApiError(msg, status, body, request_id)

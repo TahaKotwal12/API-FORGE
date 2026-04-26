@@ -1,0 +1,36 @@
+{% set a = api -%}
+use crate::client::Client;
+use crate::error::ApiError;
+use reqwest::Method;
+
+pub struct {{ a.struct_name }}<'a> {
+    client: &'a Client,
+}
+
+impl<'a> {{ a.struct_name }}<'a> {
+    pub fn new(client: &'a Client) -> Self { Self { client } }
+{% for op in a.operations %}
+{%- if op.summary %}
+    /// {{ op.summary }}
+{%- endif %}
+    pub async fn {{ op.fn_name }}(
+        &self,
+{%- for p in op.path_params %}
+        {{ p.name }}: {{ p.rust_type }},
+{%- endfor %}
+{%- for p in op.query_params %}
+        {{ p.name }}: Option<{{ p.rust_type }}>,
+{%- endfor %}
+{%- if op.has_body %}
+        body: &{{ op.body_type }},
+{%- endif %}
+    ) -> Result<{{ op.return_type }}, ApiError> {
+{%- if op.path_params %}
+        let path = format!("{{ op.path | replace(from="{", to="{") }}"{% for p in op.path_params %}, {{ p.name }} = {{ p.name }}{% endfor %});
+{%- else %}
+        let path = "{{ op.path }}".to_string();
+{%- endif %}
+        self.client.request(Method::{{ op.http_method }}, &path, {% if op.has_body %}Some(body){% else %}None::<&()>{% endif %}).await
+    }
+{% endfor %}
+}

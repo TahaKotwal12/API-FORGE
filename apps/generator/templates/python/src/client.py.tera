@@ -1,0 +1,16 @@
+from __future__ import annotations
+from ._runtime import Configuration, HttpClient
+
+
+class Client:
+    def __init__(self, config: Configuration) -> None:
+        self._http = HttpClient(config)
+
+    def close(self) -> None:
+        self._http.close()
+
+    def __enter__(self) -> "Client":
+        return self
+
+    def __exit__(self, *_: object) -> None:
+        self.close()

@@ -1,0 +1,26 @@
+{% set a = api -%}
+package {{ a.package }};
+
+import {{ a.package | replace(from=".api", to="") }}.ApiClient;
+import {{ a.package | replace(from=".api", to="") }}.ApiException;
+{%- for imp in a.imports %}
+import {{ imp }};
+{%- endfor %}
+
+public class {{ a.name }} {
+    private final ApiClient client;
+    public {{ a.name }}(ApiClient client) { this.client = client; }
+{% for op in a.operations %}
+    /**{% if op.summary %} {{ op.summary }}{% endif %} */
+    public {{ op.return_type }} {{ op.name }}(
+{%- for p in op.params %}
+        {{ p.java_type }} {{ p.name }}{% if not loop.last %},{% endif %}
+{%- endfor %}
+{%- if op.has_body %}
+        {% if op.params %}, {% endif %}{{ op.body_type }} body
+{%- endif %}
+    ) throws ApiException {
+        return client.invoke("{{ op.http_method }}", "{{ op.path }}", {% if op.has_body %}body{% else %}null{% endif %}, {{ op.return_type }}.class);
+    }
+{% endfor %}
+}

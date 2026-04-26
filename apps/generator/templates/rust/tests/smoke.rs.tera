@@ -1,0 +1,4 @@
+#[test]
+fn client_instantiates() {
+    let _ = {{ crate_name | replace(from="-", to="_") }}::Client::new("https://example.com");
+}
